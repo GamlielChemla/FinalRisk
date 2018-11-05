@@ -1,0 +1,27 @@
+::placeholder{
+    text-align: center;
+    color: cornflowerblue;
+    font-weight: bold;
+  }
+
+
+  .Risk{
+    font-weight: bold;
+    display: inline;
+    margin:40px;  
+  }
+
+  select{
+    font-weight: bold;
+    color: pink;
+   
+    display: inline;
+  }
+  
+  textarea{
+    background: pink;
+    /* height: 140px; */
+    /* width: 280px; */
+    
+    
+  }
