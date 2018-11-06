@@ -23,5 +23,5 @@
     "not ie <= 11",
     "not op_mini all"
   ],
-  "proxy": "http://10.2.1.120:5000/"
+  "proxy": "http://10.2.1.120:4000/"
 }

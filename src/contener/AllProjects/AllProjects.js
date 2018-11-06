@@ -1,51 +1,44 @@
 import React, { Component } from 'react';
+import RiskOverView from '../../components/RiskOverView/RiskOverView'
 
- 
 import axios from 'axios';
 
 
 
 class AllProjects extends Component {
-  constructor(props){
+  constructor(props) {
     super(props)
   }
-      state={
-        obj:[]
+  state = {
+    obj: [],
+    sendProject: ""
   }
-  componentDidMount() {
-    axios.get('/end')
-  
-  .then((Response=>{
 
-    this.setState({
-      obj:Response
-    })
-    console.log(Response);
-    
-  }))
+  sendproject = () => {
+    console.log("aaaaaa ", this.state.sendProject);
+
+    // this.setState({sendProject:sendproject})
+    axios.post("/first", this.state)
+      .then(response =>
+
+        console.log("response", response)
+
+      ).catch(err => {
+        console.log("err", err.message);
+
+      })
   }
   render() {
     return (
       <div className="first">
         <center>
-        <h1>Risk Manager</h1></center>
+          <h1>Risk Manager</h1></center>
 
-        <div className ="views">
-        <button className = "btnEdit">edit</button>
-          <br/>
-          <div>
-          {this.state.obj.map((elem)=>{
-            return (<div>{elem}</div>)
-          })}</div>
-        <div className="total" contentEditable="true"> Total Risk
+        <input type="text" placeholder="enter your project" onChange={(event) => this.setState({ sendProject: event.target.value })} />
+        <button type="submit" onClick={this.sendproject}> send</button>
+        {/* <RiskOverView/> */}
 
-        </div>
-
-        </div>
-
-
-
-          </div>
+      </div>
     )
   }
 }
