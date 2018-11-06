@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./Project.css";
 
-import axios from "../../App";
+import axios from "axios";
 
 import MySelect from "../../components/MySelect/MySelect";
 
@@ -103,22 +103,35 @@ class Project extends Component {
 
     this.setState({ risks: newState });
      
-    
-  }
 
+  }
+    postHandle = () => {
+      let data = [];
   
-  componentDidMount() {
-    axios.get("/EndPage").then(response => {
-      this.setState({
-        obj: response.data.arrayResult
-      });
-      console.log(this.state.obj);
-
-      // console.log((response.data));
-    });
-  }
-
-
+      this.state.risks.map((elem) => {
+        data.push({
+          riskName: elem.riskName,
+          [elem.riskName + "" + "probability"]: elem.probability,
+          [elem.riskName + "" + "concequence"]: elem.concequence,
+          [elem.riskName + "" + "reasons"]: elem.reasons,
+          [elem.riskName + "" + "mitigation"]: elem.mitigation,
+        })
+        console.log(data);
+  
+      })
+      this.setState({ data: data })
+  
+      axios.post("/second", this.state.data)
+        .then(response =>
+  
+          console.log("response",response.data)
+  
+  
+        ).catch(err => {
+          console.log("err",err.message);
+  
+        })
+      }
   render() {
     const mySelectsList = this.state.risks.map((item, index) => (
       <MySelect
@@ -134,9 +147,9 @@ class Project extends Component {
 
         <NewRisk addNewRisk={this.addNewRisk} />
 
-        {/* <button className="save" type="submit" onClick={this.postHandle}>
+        <button className="save" type="submit" onClick={this.postHandle}>
           save
-        </button> */}
+        </button>
       </div>
     );
   }

@@ -34,24 +34,24 @@ let connection = mysql.createConnection({
     console.log("1er");
     
    insertInDb = (req)=>{
-    let ProbabilityTest=req.body[0].delayconcequence
+    let ProbabilityTest=req.body[0].testprobability
 
 // console.log(req.body[0].delayconcequence);
 
     
-    let ConcequenceTest=req.body[0].delayprobability
-    let MitigationTest=req.body[0].delaymitigation
-    let ReasonTest=req.body[0].delayreasons
-    let ProbabilityBudget=req.body[1].testconcequence
-    let ConcequenceBudget=req.body[1].testprobability
-    let MitigationBudget=req.body[1].testmitigation
-    let ReasonBudget=req.body[1].testreasons
-    let ProbabilityDeliveryD=req.body[2].budgetconcequence
-    let ConcequenceDeliveryD=req.body[2].budgetprobability
-    let MitigationDeliveryD=req.body[2].budgetmitigation
-    let ReasonDeliveryD=req.body[2].budgetreasons
-    let ProbabilityCustomer=req.body[3].customerconcequence
-    let ConcequenceCustomer=req.body[3].customerprobability
+    let ConcequenceTest=req.body[0].testconcequence
+    let MitigationTest=req.body[0].testmitigation
+    let ReasonTest=req.body[0].testreasons
+    let ProbabilityBudget=req.body[1].budgetprobability
+    let ConcequenceBudget=req.body[1].budgetconcequence
+    let MitigationBudget=req.body[1].budgetmitigation
+    let ReasonBudget=req.body[1].budgetreasons
+    let ProbabilityDeliveryD=req.body[2].delayprobability
+    let ConcequenceDeliveryD=req.body[2].delayconcequence
+    let MitigationDeliveryD=req.body[2].delaymitigation
+    let ReasonDeliveryD=req.body[2].delayreasons
+    let ProbabilityCustomer=req.body[3].customerprobability
+    let ConcequenceCustomer=req.body[3].customerconcequence
     let MitigationCustomer=req.body[3].customermitigation
     let ReasonCustomer=req.body[3].customerreasons
     
