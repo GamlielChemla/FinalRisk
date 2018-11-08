@@ -27,4 +27,28 @@
   background-color: blueviolet;
   margin:auto;
 
+}.saveDone{
+  border-radius: 5px;
+  background: rosybrown;
+  color: brown;
+  font-weight: bold;
+  border: 2px solid black;
+  height: 50px;
+  width: 250px;
+  /* margin:auto; */
+  /* display: inline; */
+  position: absolute;
+  right: 12%; 
+  bottom: 23%;
+}select{
+  font-weight: bold;
+  color: pink;
+  background: cornflowerblue ;
+}.test{
+  font-weight: bold;
+  
+  display: inline;
+  margin:40px;  
+   
+  
 }

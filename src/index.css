@@ -3,39 +3,9 @@ h1{
   color: darkorchid
 }
 
-  .views{
-    /* border: 2px solid black; */
-    width: 75%;
-    height: 130px;
-    background-color: violet;
-    margin:auto;
-    border-radius: 30px;
-  
-}.total{
-  color:black;
-  font-weight: bold;
-text-align: center;
-  margin: auto;
-  border :3px solid rgb(156, 43, 141);
-  height:50px;
-  width: 90px;
-  border-radius: 10px;
-  position: relative;
-  top: -12%; 
 
+div{
+  border: 1px solid black
 }
-.btnEdit{
-  background-color: deeppink;
-  border-radius: 10px;
-  height: 50px;
-  width: 100px;
-  font-weight: bold;
-  /* position: relative; */
-  left: 70%;
-  top: 0px;
-  -webkit-box-shadow: 3px 0px 13px 8px rgba(112,39,112,0.57);
-  -moz-box-shadow: 3px 0px 13px 8px rgba(112,39,112,0.57);
-  box-shadow: 3px 0px 13px 8px rgba(112,39,112,0.57);
-  border: 2px solid darkmagenta;
 
-}
+

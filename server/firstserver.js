@@ -1,9 +1,11 @@
-let express = require('express')
-let mysql = require('mysql');
-var bodyParser = require('body-parser')
-let app = express();
+const express = require('express')
+const mysql = require('mysql');
+let router = express.Router();
 
-const port = 4000;
+const bodyParser = require('body-parser')
+const app = express();
+
+// const port = 4000;
 
 
 let connection = mysql.createConnection({
@@ -21,8 +23,8 @@ let connection = mysql.createConnection({
   
     }
   });
-  app.use(bodyParser.json())
-  app.post("/first", (req, res)=> {
+  // app.use(bodyParser.json())
+  router.post("/first", (req, res)=> {
     
     // console.log("req",req.body)
   
@@ -60,4 +62,6 @@ const mysqlll = insertInDb(req);
   })
 
 })
-    app.listen(port, () => console.log(`server ${port}`))
+module.exports = router;
+
+    // app.listen(port, () => console.log(`server ${port}`))

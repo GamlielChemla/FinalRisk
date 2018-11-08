@@ -138,7 +138,7 @@ class Project extends Component {
         riskName={item.riskName}
         removeRisk={this.removeRisk}
         addDataToState={this.addDataToState}
-        key={index + " " + item.riskName}
+        key={index + "" + item.riskName}
       />
     ));
     return (
@@ -147,7 +147,7 @@ class Project extends Component {
 
         <NewRisk addNewRisk={this.addNewRisk} />
 
-        <button className="save" type="submit" onClick={this.postHandle}>
+        <button className="saveDone" type="submit" onClick={this.postHandle}>
           save
         </button>
       </div>

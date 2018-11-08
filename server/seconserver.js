@@ -1,16 +1,18 @@
 let express = require('express')
 let mysql = require('mysql');
 var bodyParser = require('body-parser')
-let app = express();
+// let app = express();
+let router = express.Router();
 
-const port = 5000;
+
+// const port = 5000;
 
 
 let connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'rina3004',
-    database: "risk"
+    database: "myproject"
   
   });
   connection.connect(function (err) {
@@ -21,10 +23,10 @@ let connection = mysql.createConnection({
   
     }
   });
-  app.use(bodyParser.json())
-  app.post('/second', (req, res)=> {
+  // app.use(bodyParser.json())
+  router.post('/second', (req, res)=> {
     
-    // console.log("req",req.body)
+    console.log("req",req.body)
   
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -34,11 +36,8 @@ let connection = mysql.createConnection({
     console.log("1er");
     
    insertInDb = (req)=>{
+     
     let ProbabilityTest=req.body[0].testprobability
-
-// console.log(req.body[0].delayconcequence);
-
-    
     let ConcequenceTest=req.body[0].testconcequence
     let MitigationTest=req.body[0].testmitigation
     let ReasonTest=req.body[0].testreasons
@@ -82,4 +81,6 @@ const mysqlll = insertInDb(req);
   })
 
 })
-    app.listen(port, () => console.log(`server ${port}`))
+module.exports = router;
+
+    // app.listen(port, () => console.log(`server ${port}`))

@@ -1,44 +1,53 @@
 import React, { Component } from 'react';
-import RiskOverView from '../../components/RiskOverView/RiskOverView'
-
+// import RiskOverView from '../../components/RiskOverView/RiskOverView'
+import './AllProject.css'
 import axios from 'axios';
+import CreateTable from '../../components/CreateTable/CreateTable'
+import RiskOverView from '../../components/RiskOverView/RiskOverView'
 
 
 
 class AllProjects extends Component {
-  constructor(props) {
-    super(props)
-  }
+  
   state = {
-    obj: [],
-    sendProject: ""
+    allProjectsList: null
+
   }
+  componentDidMount() {
+    axios.get("/AllDB")
+      .then((response) => {
 
-  sendproject = () => {
-    console.log("aaaaaa ", this.state.sendProject);
+        console.log("qqqqqqqqqq", response)
 
-    // this.setState({sendProject:sendproject})
-    axios.post("/first", this.state)
-      .then(response =>
+        this.setState({
+          allProjectsList: response.data
+        })
+        console.log(this.state.allProjectsList)
 
-        console.log("response", response)
-
-      ).catch(err => {
+      }
+      )
+      .catch(err => {
         console.log("err", err.message);
+
 
       })
   }
-  render() {
-    return (
-      <div className="first">
-        <center>
-          <h1>Risk Manager</h1></center>
 
-        <input type="text" placeholder="enter your project" onChange={(event) => this.setState({ sendProject: event.target.value })} />
-        <button type="submit" onClick={this.sendproject}> send</button>
-        {/* <RiskOverView/> */}
+  render() {
+    let read=[]
+    if (this.state.allProjectsList){
+     read = this.state.allProjectsList.map(elem => 
+       <RiskOverView  riskName= {elem.Tables_in_myproject} />
+      
+    )}
+
+    return (
+      <div>
+      <CreateTable/>
+        {read}
 
       </div>
+
     )
   }
 }

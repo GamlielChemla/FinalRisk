@@ -5,6 +5,7 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 // import Project from './contener/Project/Project'
 import AllProjects from './contener/AllProjects/AllProjects'
+// import Project from './contener/Project/Project'
 
 ReactDOM.render(<AllProjects />, document.getElementById('root'));
 
