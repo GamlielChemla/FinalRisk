@@ -6,6 +6,7 @@ const AllDB = require('./AllDB')
 
 const second = require('./seconserver')
 const first = require('./firstserver')
+const myname = require('./projectName')
 
 app.use(bodyParser.json())
 
@@ -13,6 +14,7 @@ app.use(bodyParser.json())
 app.use('/',AllDB)
 app.use('/',second)
 app.use('/',first)
+app.use('/',myname)
 
 
 

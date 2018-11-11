@@ -35,7 +35,7 @@ let connection = mysql.createConnection({
    
     console.log("1er");
     
-    console.log("req",req.body.sendProject);
+    // console.log("req",req.body.sendProject);
     
     insertInDb = (req)=>{
         

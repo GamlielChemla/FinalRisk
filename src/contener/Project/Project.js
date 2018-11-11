@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import "./Project.css";
+import { Link } from 'react-router-dom'
+
 
 import axios from "axios";
 
@@ -8,6 +10,11 @@ import MySelect from "../../components/MySelect/MySelect";
 import NewRisk from "../../components/NewRisk/NewRisk";
 
 class Project extends Component {
+  
+  
+  
+  
+  
   state = {
     risks: [
       
@@ -24,7 +31,7 @@ class Project extends Component {
         concequence: 0,
         mitigation: "",
         reasons: ""
-      },{
+      }, {
         riskName: "delay",
         probability: 0,
         concequence: 0,
@@ -40,22 +47,35 @@ class Project extends Component {
       }
     ]
   };
-
+  
+  myname = this.props.match.params.projectName
+  btndone = () => {
+    axios.post('/myname', this.myname)
+    .then((response) => {
+      console.log(this.props.match.params.projectName);
+      
+      console.log("myname", response);
+      
+    }
+    ).catch(err => {
+      console.log("err", err.message);
+    })
+  }
   addNewRisk = e => {
     e.preventDefault();
-
+    
     let newRisk = e.target.elements.myInput.value;
-
+    
     let check = true;
-
+    
     let newState = this.state.risks.slice();
-
+    
     for (let i = 0; i < newState.length; i++) {
       if (newState[i].riskName === newRisk) {
         check = false;
       }
     }
-
+    
     if (check) {
       newState = [
         ...newState,
@@ -67,31 +87,32 @@ class Project extends Component {
           reasons: ""
         }
       ];
-
+      
       this.setState({ risks: newState });
     }
   };
 
   removeRisk = (name) => {
-    if(name !=="customer" && name !=="budget" && name !=="test" && name !=="delay" ){
-    let newState = this.state.risks.slice();
+    if (name !== "customer" && name !== "budget" && name !== "test" && name !== "delay") {
+      let newState = this.state.risks.slice();
 
-    console.log(name);
-    
-    const myIndex = newState.findIndex(elem => {
-      return elem.riskName === name;
-    });
+      console.log(name);
 
-    console.log(myIndex);
-    
-    newState.splice(myIndex, 1);
+      const myIndex = newState.findIndex(elem => {
+        return elem.riskName === name;
+      });
 
-    this.setState({ risks: newState })}
+      console.log(myIndex);
+
+      newState.splice(myIndex, 1);
+
+      this.setState({ risks: newState })
+    }
   };
 
-  addDataToState = (name,e) =>{
-    
-    let myKey = e.target.name; 
+  addDataToState = (name, e) => {
+
+    let myKey = e.target.name;
 
     let newState = this.state.risks.slice();
 
@@ -99,39 +120,44 @@ class Project extends Component {
       return elem.riskName === name;
     });
 
-    newState[myIndex][myKey]=e.target.value
+    newState[myIndex][myKey] = e.target.value
 
     this.setState({ risks: newState });
-     
+
 
   }
-    postHandle = () => {
-      let data = [];
-  
-      this.state.risks.map((elem) => {
-        data.push({
-          riskName: elem.riskName,
-          [elem.riskName + "" + "probability"]: elem.probability,
-          [elem.riskName + "" + "concequence"]: elem.concequence,
-          [elem.riskName + "" + "reasons"]: elem.reasons,
-          [elem.riskName + "" + "mitigation"]: elem.mitigation,
-        })
-        console.log(data);
-  
+  postHandle = () => {
+    let data = [];
+
+    this.state.risks.map((elem) => {
+      data.push({
+        riskName: elem.riskName,
+        [elem.riskName + "" + "probability"]: elem.probability,
+        [elem.riskName + "" + "concequence"]: elem.concequence,
+        [elem.riskName + "" + "reasons"]: elem.reasons,
+        [elem.riskName + "" + "mitigation"]: elem.mitigation,
       })
-      this.setState({ data: data })
-  
-      axios.post("/second", this.state.data)
-        .then(response =>
-  
-          console.log("response",response.data)
-  
-  
-        ).catch(err => {
-          console.log("err",err.message);
-  
-        })
-      }
+      console.log(data);
+
+    })
+    this.setState({ data: data })
+
+    axios.post("/second", this.state.data)
+      .then(response =>
+
+        console.log("response", response.data)
+
+
+      ).catch(err => {
+        console.log("err", err.message);
+
+      })
+  }
+
+  logName= ()=>{
+    console.log(this.props.match.params.projectName);
+    
+  }
   render() {
     const mySelectsList = this.state.risks.map((item, index) => (
       <MySelect
@@ -139,6 +165,7 @@ class Project extends Component {
         removeRisk={this.removeRisk}
         addDataToState={this.addDataToState}
         key={index + "" + item.riskName}
+        myname ={this.myname}
       />
     ));
     return (
@@ -147,9 +174,17 @@ class Project extends Component {
 
         <NewRisk addNewRisk={this.addNewRisk} />
 
-        <button className="saveDone" type="submit" onClick={this.postHandle}>
+        <button className="save" type="submit" onClick={this.postHandle}>
           save
         </button>
+
+        <button onClick ={this.logName}> Log My Params </button>
+
+        {/* <Link to="/"> */}
+          <button className="Done" type="submit" onClick={this.btndone} >
+            Done
+        </button>
+        {/* </Link> */}
       </div>
     );
   }

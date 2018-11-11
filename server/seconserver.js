@@ -34,6 +34,7 @@ let connection = mysql.createConnection({
     res.header('Access-Control-Allow-Headers', '*');
    
     console.log("1er");
+
     
    insertInDb = (req)=>{
      
