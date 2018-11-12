@@ -2,9 +2,7 @@ let express = require('express');
 let router = express.Router();
 let mysql = require('mysql');
 // var bodyParser = require('body-parser')
-// let app = express();
 
-// const port = 6000;
 
 
 let connection = mysql.createConnection({
@@ -22,12 +20,9 @@ connection.connect(function (err) {
 
     }
 });
-// app.use(bodyParser.json())
 
 router.get("/AllDB", (req, res) => {
 
-
-    console.log("res", res.body)
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -36,28 +31,24 @@ router.get("/AllDB", (req, res) => {
 
     console.log("1er");
 
-
-    insertInDb = (res) => {
-
-
+    insertInDb = () => {
 
         let table = `show tables`
         return table
 
     }
-    // console.log(sendProject);
-    const mysqlll = insertInDb(res);
-    // console.log(mysqlll);
+
+    const mysqlll = insertInDb();
+
 
     connection.query(mysqlll, (err, result, files, rows) => {
         if (err) {
             console.log('error query ' + err.message);
         } else {
-            console.log("succes ", result)
+            console.log("succesaaaa ", result)
             res.send(result)
         }
     })
 }
 )
 module.exports = router;
-    // app.listen(port, () => console.log(`server ${port}`))

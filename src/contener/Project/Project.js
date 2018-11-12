@@ -10,14 +10,10 @@ import MySelect from "../../components/MySelect/MySelect";
 import NewRisk from "../../components/NewRisk/NewRisk";
 
 class Project extends Component {
-  
-  
-  
-  
-  
+
   state = {
     risks: [
-      
+
       {
         riskName: "test",
         probability: 0,
@@ -45,37 +41,48 @@ class Project extends Component {
         mitigation: "",
         reasons: ""
       }
-    ]
+    ],
+    data: [],
+    projectName: this.props.match.params.projectName,
+    totalRisk:null
   };
-  
-  myname = this.props.match.params.projectName
-  btndone = () => {
-    axios.post('/myname', this.myname)
-    .then((response) => {
-      console.log(this.props.match.params.projectName);
+
+  myProjectLocation = this.props.match.params.projectName
+
+   setTotalRisk= async () =>{
+      let arr=[]
+      await this.state.risks.forEach(elem =>{
+        arr.push(((elem.probability *elem.concequence)/4))
+        
+      }
       
-      console.log("myname", response);
+      )
+
+      let sum = await arr.reduce((all,item ) =>{
+          return all+item
+      })
+      console.log("my sum" ,sum);
       
-    }
-    ).catch(err => {
-      console.log("err", err.message);
-    })
+      this.setState({totalRisk:sum})
+    
+    
   }
+  ;
   addNewRisk = e => {
     e.preventDefault();
-    
+
     let newRisk = e.target.elements.myInput.value;
-    
+
     let check = true;
-    
+
     let newState = this.state.risks.slice();
-    
+
     for (let i = 0; i < newState.length; i++) {
       if (newState[i].riskName === newRisk) {
         check = false;
       }
     }
-    
+
     if (check) {
       newState = [
         ...newState,
@@ -87,7 +94,7 @@ class Project extends Component {
           reasons: ""
         }
       ];
-      
+
       this.setState({ risks: newState });
     }
   };
@@ -126,21 +133,26 @@ class Project extends Component {
 
 
   }
-  postHandle = () => {
-    let data = [];
+  postHandle = async () => {
 
-    this.state.risks.map((elem) => {
-      data.push({
+    let newData = []
+    let arr = [... this.state.risks]
+    await arr.map((elem) => {
+      newData.push({
+        projectName: this.state.projectName,
         riskName: elem.riskName,
-        [elem.riskName + "" + "probability"]: elem.probability,
-        [elem.riskName + "" + "concequence"]: elem.concequence,
-        [elem.riskName + "" + "reasons"]: elem.reasons,
-        [elem.riskName + "" + "mitigation"]: elem.mitigation,
+        ["probability" + "" + elem.riskName]: elem.probability,
+        ["concequence" + "" + elem.riskName]: elem.concequence,
+        ["reasons" + "" + elem.riskName]: elem.reasons,
+        ["mitigation" + "" + elem.riskName]: elem.mitigation,
+
       })
-      console.log(data);
+
 
     })
-    this.setState({ data: data })
+
+
+    this.setState({ data: newData })
 
     axios.post("/second", this.state.data)
       .then(response =>
@@ -154,10 +166,7 @@ class Project extends Component {
       })
   }
 
-  logName= ()=>{
-    console.log(this.props.match.params.projectName);
-    
-  }
+
   render() {
     const mySelectsList = this.state.risks.map((item, index) => (
       <MySelect
@@ -165,26 +174,31 @@ class Project extends Component {
         removeRisk={this.removeRisk}
         addDataToState={this.addDataToState}
         key={index + "" + item.riskName}
-        myname ={this.myname}
+
       />
     ));
     return (
       <div className="App">
+        <div> project name : {this.state.projectName}</div>
+        <div> Total Risk : {this.state.totalRisk} </div>
+
+
+
         {mySelectsList}
 
         <NewRisk addNewRisk={this.addNewRisk} />
 
-        <button className="save" type="submit" onClick={this.postHandle}>
+         <button className="save" type="submit" onClick={()=>{this.postHandle() ; this.setTotalRisk()} }>
           save
         </button>
-
-        <button onClick ={this.logName}> Log My Params </button>
-
-        {/* <Link to="/"> */}
-          <button className="Done" type="submit" onClick={this.btndone} >
+ 
+        <Link to={"/"}>
+          <button className="Done" type="submit"  >
             Done
         </button>
-        {/* </Link> */}
+        </Link>
+
+    
       </div>
     );
   }

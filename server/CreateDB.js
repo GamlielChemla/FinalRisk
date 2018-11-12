@@ -5,8 +5,6 @@ let router = express.Router();
 const bodyParser = require('body-parser')
 const app = express();
 
-// const port = 4000;
-
 
 let connection = mysql.createConnection({
     host: 'localhost',
@@ -23,10 +21,8 @@ let connection = mysql.createConnection({
   
     }
   });
-  // app.use(bodyParser.json())
   router.post("/first", (req, res)=> {
     
-    // console.log("req",req.body)
   
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -35,21 +31,17 @@ let connection = mysql.createConnection({
    
     console.log("1er");
     
-    // console.log("req",req.body.sendProject);
     
     insertInDb = (req)=>{
         
     let sendProject = req.body.sendProject
 
-    let table = `create table ${sendProject} (id INT AUTO_INCREMENT PRIMARY KEY,ProbabilityTest int,ConcequenceTest int,MitigationTest varchar (255),ReasonTest varchar (255),ProbabilityBudget int,ConcequenceBudget int,MitigationBudget varchar (255),ReasonBudget varchar (255),ProbabilityDeliveryD int,ConcequenceDeliveryD int,MitigationDeliveryD varchar (255),ReasonDeliveryD varchar (255),ProbabilityCustomer int,ConcequenceCustomer int,MitigationCustomer varchar (255),ReasonCustomer varchar (255))`
+    let table = `create table ${sendProject} (id INT AUTO_INCREMENT PRIMARY KEY,total int,ProbabilityTest int,ConcequenceTest int,MitigationTest varchar (255),ReasonTest varchar (255),ProbabilityBudget int,ConcequenceBudget int,MitigationBudget varchar (255),ReasonBudget varchar (255),ProbabilityDeliveryD int,ConcequenceDeliveryD int,MitigationDeliveryD varchar (255),ReasonDeliveryD varchar (255),ProbabilityCustomer int,ConcequenceCustomer int,MitigationCustomer varchar (255),ReasonCustomer varchar (255) )`
     return table
     
-    
 }
-// console.log(sendProject);
 const mysqlll = insertInDb(req);
 
-// console.log(mysqlll);
 
    connection.query(mysqlll, (err, result, files, rows) => {
     if (err) {
@@ -63,5 +55,3 @@ const mysqlll = insertInDb(req);
 
 })
 module.exports = router;
-
-    // app.listen(port, () => console.log(`server ${port}`))

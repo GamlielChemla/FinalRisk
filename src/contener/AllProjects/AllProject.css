@@ -1,32 +1,36 @@
-.elemDiv{
-border: 0;
-font-weight: bold;
-position: absolute;
-left: 22px;
+.elemDiv {
+  border: 0;
+  font-weight: bold;
+  position: absolute;
+  left: 22px;
 
 }
-.views{
-    /* border: 2px solid black; */
-    width: 75%;
-    height: 130px;
-    background-color: violet;
-    margin:auto;
-    border-radius: 30px;
-  
-}.total{
-  color:black;
-  font-weight: bold;
-text-align: center;
+
+.views {
+  /* border: 2px solid black; */
+  width: 75%;
+  height: 130px;
+  background-color: violet;
   margin: auto;
-  border :3px solid rgb(156, 43, 141);
-  height:50px;
+  border-radius: 30px;
+
+}
+
+.total {
+  color: black;
+  font-weight: bold;
+  text-align: center;
+  margin: auto;
+  border: 3px solid rgb(156, 43, 141);
+  height: 50px;
   width: 90px;
   border-radius: 10px;
   position: relative;
-  top: -12%; 
+  top: -12%;
 
 }
-.btnEdit{
+
+.btnEdit {
   background-color: deeppink;
   border-radius: 10px;
   height: 50px;
@@ -35,9 +39,28 @@ text-align: center;
   position: relative;
   left: 30%;
   top: 30px;
-  -webkit-box-shadow: 3px 0px 13px 8px rgba(112,39,112,0.57);
-  -moz-box-shadow: 3px 0px 13px 8px rgba(112,39,112,0.57);
-  box-shadow: 3px 0px 13px 8px rgba(112,39,112,0.57);
+  -webkit-box-shadow: 3px 0px 13px 8px rgba(112, 39, 112, 0.57);
+  -moz-box-shadow: 3px 0px 13px 8px rgba(112, 39, 112, 0.57);
+  box-shadow: 3px 0px 13px 8px rgba(112, 39, 112, 0.57);
   border: 2px solid darkmagenta;
 
+}
+
+.previous {
+  background: brown;
+  position: absolute;
+  left: 50px;
+  width: 100px;
+  border: 2px solid darkred;
+  border-radius: 5px;
+}
+
+.next {
+  background: brown;
+  position: absolute;
+  right: 50px;
+  width: 100px;
+  border: 2px solid darkred;
+  border-radius: 5px;
+  
 }

@@ -11,9 +11,9 @@ class CreateTable extends Component {
   state = {
     sendProject: ""
   }
-
+  
   sendproject = () => {
-    console.log("aaaaaa ", this.state.sendProject);
+    console.log(this.state.sendProject);
 
     // this.setState({sendProject:sendproject})
     axios.post("/first", this.state)
@@ -33,7 +33,6 @@ class CreateTable extends Component {
 
         <input type="text" placeholder="enter your project" onChange={(event) => this.setState({ sendProject: event.target.value })} />
         <button type="submit" onClick={this.sendproject}> send</button>
-        {/* <RiskOverView/> */}
 
       </div>
     )

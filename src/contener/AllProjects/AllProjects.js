@@ -35,18 +35,22 @@ class AllProjects extends Component {
 
   render() {
     let read=[]
+    
     if (this.state.allProjectsList){
-     read = this.state.allProjectsList.map((elem,index) => 
+    
+    read = this.state.allProjectsList.map((elem,index) => 
+    
        <RiskOverView  riskName= {elem.Tables_in_myproject}  />
-      
     )}
 
     return (
       <div>
+      <button className = "previous" >previous</button>
+      <button className = "next">next</button>
 
       <CreateTable/>
         {read}
-  
+        
       </div>
 
     )
