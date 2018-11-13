@@ -54,9 +54,7 @@ class Project extends Component {
       await this.state.risks.forEach(elem =>{
         arr.push(((elem.probability *elem.concequence)/4))
         
-      }
-      
-      )
+      })
 
       let sum = await arr.reduce((all,item ) =>{
           return all+item
@@ -64,8 +62,6 @@ class Project extends Component {
       console.log("my sum" ,sum);
       
       this.setState({totalRisk:sum})
-    
-    
   }
   ;
   addNewRisk = e => {
@@ -145,7 +141,7 @@ class Project extends Component {
         ["concequence" + "" + elem.riskName]: elem.concequence,
         ["reasons" + "" + elem.riskName]: elem.reasons,
         ["mitigation" + "" + elem.riskName]: elem.mitigation,
-
+        
       })
 
 
@@ -164,6 +160,21 @@ class Project extends Component {
         console.log("err", err.message);
 
       })
+  }
+  getTotal=()=>{
+    axios.get('/version')
+    .then((response)=>{
+      console.log("version",response);
+
+      this.setState({counter:response.data})
+      // let mincount = [...this.state.counter-1]
+      console.log("counter",this.state.weeksBack);
+      
+      
+    }).catch(err=>{
+      console.log("err",err.message);
+      
+    })
   }
 
 
@@ -188,7 +199,7 @@ class Project extends Component {
 
         <NewRisk addNewRisk={this.addNewRisk} />
 
-         <button className="save" type="submit" onClick={()=>{this.postHandle() ; this.setTotalRisk()} }>
+         <button className="save" type="submit" onClick={()=>{this.postHandle() ; this.setTotalRisk() ; this.getTotal()}  }>
           save
         </button>
  

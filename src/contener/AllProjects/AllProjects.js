@@ -10,8 +10,8 @@ import RiskOverView from '../../components/RiskOverView/RiskOverView'
 class AllProjects extends Component {
   
   state = {
-    allProjectsList: null
-
+    allProjectsList: null,
+    weeksBack:0
   }
   componentDidMount() {
     axios.get("/AllDB")
@@ -32,6 +32,7 @@ class AllProjects extends Component {
 
       })
   }
+ 
 
   render() {
     let read=[]
@@ -40,13 +41,13 @@ class AllProjects extends Component {
     
     read = this.state.allProjectsList.map((elem,index) => 
     
-       <RiskOverView  riskName= {elem.Tables_in_myproject}  />
+       <RiskOverView  riskName= {elem.Tables_in_myproject} weeksBack={this.state.weeksBack} />
     )}
 
     return (
       <div>
-      <button className = "previous" >previous</button>
-      <button className = "next">next</button>
+      <button className = "previous" onClick={this.getVersion} >previous</button>
+      {/* <button className = "next">next</button> */}
 
       <CreateTable/>
         {read}

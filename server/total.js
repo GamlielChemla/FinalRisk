@@ -21,21 +21,26 @@ connection.connect(function (err) {
     }
 });
 
-router.get("/AllDB", (req, res) => {
 
+router.get("/version",(req,res)=>{
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Max-Age', 86400)
     res.header('Access-Control-Allow-Headers', '*');
-
-    console.log("1er");
-
     
-
-    const mysqlll = `show tables`;
-
-
+    
+    console.log("2em");
+    
+    
+    viewTotal=()=>{
+        let version =` select total from zazaza  `
+        return version
+    }
+    console.log("body",res.version);
+    const mysqlll = viewVersion();
+    
+    
     connection.query(mysqlll, (err, result, files, rows) => {
         if (err) {
             console.log('error query ' + err.message);
