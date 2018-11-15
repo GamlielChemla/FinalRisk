@@ -19,27 +19,27 @@ class Project extends Component {
         probability: 0,
         concequence: 0,
         mitigation: "",
-        reasons: ""
+        reason: ""
       },
       {
         riskName: "budget",
         probability: 0,
         concequence: 0,
         mitigation: "",
-        reasons: ""
+        reason: ""
       }, {
         riskName: "delay",
         probability: 0,
         concequence: 0,
         mitigation: "",
-        reasons: ""
+        reason: ""
       },
       {
         riskName: "customer",
         probability: 0,
         concequence: 0,
         mitigation: "",
-        reasons: ""
+        reason: ""
       }
     ],
     data: [],
@@ -52,7 +52,7 @@ class Project extends Component {
    setTotalRisk= async () =>{
       let arr=[]
       await this.state.risks.forEach(elem =>{
-        arr.push(((elem.probability *elem.concequence)/4))
+        arr.push(((elem.probability *elem.concequence)/this.state.risks.length))
         
       })
 
@@ -87,7 +87,7 @@ class Project extends Component {
           probability: 0,
           concequence: 0,
           mitigation: "",
-          reasons: ""
+          reason: ""
         }
       ];
 
@@ -135,48 +135,34 @@ class Project extends Component {
     let arr = [... this.state.risks]
     await arr.map((elem) => {
       newData.push({
-        projectName: this.state.projectName,
         riskName: elem.riskName,
-        ["probability" + "" + elem.riskName]: elem.probability,
-        ["concequence" + "" + elem.riskName]: elem.concequence,
-        ["reasons" + "" + elem.riskName]: elem.reasons,
-        ["mitigation" + "" + elem.riskName]: elem.mitigation,
+        "probability": elem.probability,
+        "concequence" : elem.concequence,
+        "mitigation" : elem.mitigation ,
+        "reason" : elem.reason ,
         
       })
+      console.log("newData",newData);
 
 
     })
 
-
     this.setState({ data: newData })
+    console.log("data",this.state.data);
+    
 
-    axios.post("/second", this.state.data)
+    axios.post("/second", {data:this.state.data,projectName:this.state.projectName})
       .then(response =>
 
-        console.log("response", response.data)
+        console.log("response", response)
+        // console.log("response", response)
 
 
       ).catch(err => {
-        console.log("err", err.message);
+        console.log("erreur", err.message);
 
       })
   }
-  getTotal=()=>{
-    axios.get('/version')
-    .then((response)=>{
-      console.log("version",response);
-
-      this.setState({counter:response.data})
-      // let mincount = [...this.state.counter-1]
-      console.log("counter",this.state.weeksBack);
-      
-      
-    }).catch(err=>{
-      console.log("err",err.message);
-      
-    })
-  }
-
 
   render() {
     const mySelectsList = this.state.risks.map((item, index) => (
@@ -199,7 +185,7 @@ class Project extends Component {
 
         <NewRisk addNewRisk={this.addNewRisk} />
 
-         <button className="save" type="submit" onClick={()=>{this.postHandle() ; this.setTotalRisk() ; this.getTotal()}  }>
+         <button className="save" type="submit" onClick={()=>{this.postHandle() ; this.setTotalRisk()}  }>
           save
         </button>
  

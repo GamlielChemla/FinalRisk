@@ -33,11 +33,11 @@ router.get("/version",(req,res)=>{
     console.log("2em");
     
     
-    viewTotal=()=>{
-        let version =` select total from zazaza  `
-        return version
-    }
-    console.log("body",res.version);
+    // viewTotal=()=>{
+    //     let version =` select total from zazaza  `
+    //     return version
+    // }
+    // console.log("body",res.version);
     const mysqlll = viewVersion();
     
     

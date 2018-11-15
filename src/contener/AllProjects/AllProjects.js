@@ -13,6 +13,7 @@ class AllProjects extends Component {
     allProjectsList: null,
     weeksBack:0
   }
+  
   componentDidMount() {
     axios.get("/AllDB")
       .then((response) => {

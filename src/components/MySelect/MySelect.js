@@ -53,7 +53,7 @@ class MySelect extends Component{
 
           <textarea type="text" placeholder="enter risk mitigation" className="input" name = "mitigation" onChange= {this.props.addDataToState.bind(this,this.props.riskName)} />
           
-          <textarea type="text" placeholder="enter risk reasons" className="input"  name = "reasons"  onChange = {this.props.addDataToState.bind(this,this.props.riskName)}/>
+          <textarea type="text" placeholder="enter risk reasons" className="input"  name = "reason"  onChange = {this.props.addDataToState.bind(this,this.props.riskName)}/>
 
           {myB}
           
