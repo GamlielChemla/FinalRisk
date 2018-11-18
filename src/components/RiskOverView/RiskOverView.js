@@ -59,7 +59,7 @@ render(){
         </Link>
         <br />
 
-        <button className="totalbtn" onClick={this.totalclick}>tottalclik</button>
+        
 
         <div className="total" >
           <div >Total Risk</div> 
