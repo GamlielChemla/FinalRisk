@@ -81,7 +81,7 @@ router.post('/', (req, res) => {
       sum += (probability * concequence) / risksLen 
 
     }
-    return (sum);
+    return Math.ceil(sum);
 
   }
 

@@ -59,7 +59,7 @@ class Project extends Component {
       })
       console.log("my sum" ,sum);
       
-      this.setState({totalRisk:sum})
+      this.setState({totalRisk:Math.ceil(sum)})
   }
   ;
   addNewRisk = e => {
