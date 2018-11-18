@@ -13,7 +13,8 @@ class RiskOverView extends Component {
   }
 
 
-    totalclick=()=>{
+    componentDidMount(){
+
       let projectName= this.props.projectName
       console.log(projectName);
       
