@@ -180,16 +180,21 @@ class Project extends Component {
 
       />
     ));
+
+    let showAddNewRisk = null
+    if(this.state.risks.length < 6){
+      showAddNewRisk =<NewRisk addNewRisk={this.addNewRisk} />
+    }
     return (
       <div className="App">
         <div> project name : {this.state.projectName}</div>
         <div> Total Risk : {this.state.totalRisk} </div>
-
+  
 
 
         {mySelectsList}
-
-        <NewRisk addNewRisk={this.addNewRisk} />
+        {showAddNewRisk}
+        
 
          <button className="save" type="submit" onClick={()=>{this.postHandle() ; this.setTotalRisk()}  }>
           save
