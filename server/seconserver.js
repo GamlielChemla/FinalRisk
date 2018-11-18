@@ -41,109 +41,65 @@ router.post('/second', (req, res) => {
 
   });
 
-  console.log("narr",arr);
-
-let sqlKeys = []
-
-for (let iterator of arr) {
-
-  sqlKeys.push(Object.keys(iterator)[0]);
-}
-
-
-
-
-  //  
-   
- let arrZZZ= []
- 
- arr.forEach((elem) =>{
-      let z = Object.values(elem)[0]
-      console.log( "nananan" ,typeof z);
+  
+  const getKeysAndVals = (arr) =>{
+    arrKeys =[]
+    arrVals =[]
+    
+    arr.forEach(elem => 
+      {
+        let myKey = Object.keys(elem)[0]
+        console.log("mykey",myKey);
+        
+        
+        if(elem[myKey].length >0 || elem[myKey]> 0 ){
+           arrKeys.push (myKey)
+            
+            arrVals.push (`'${(Object.values(elem)[0])}'`)
+        }
+      })
       
-    if(z.length > 0 || z >-1 ){
-      arrZZZ.push(elem)
+      return [arrKeys,arrVals]
+      
     }
-  })
-  console.log("shlolo", arrZZZ);
-  
-
-
-  
-
-
-
-  console.log('sqlKeys', sqlKeys);
-
-
-  let sqlValues = []
-  for (let iterator of arr) {
-
-    sqlValues  = [...sqlValues, Object.values(iterator)[0] ] ;
     
+   
+    let sqlKeys =  getKeysAndVals(arr)[0]
+
+    let sqlValues =  getKeysAndVals(arr)[1]
+
     
-  }
-
-  // let Vakkkkk = sqlValues.forEach(elem =>
-  //   {
-  //     if ( typeof elem === 'string' || elem instanceof String){
-  //       elem + ""
-  //     }
-
-  //   }
-  //   )
-
-
-  // console.log('sqlValuesdadadadddadadada', Vakkkkk);
-
-  
-  
-  let risksLen = req.body.data.length
-  
-  let DataArray = req.body.data
-
-  
-  
-  const avreg = (myArray, len) => {
-    
+    const avreg = () => {
+      let risksLen = req.body.data.length
+      
+      let myOriginArray = req.body.data
+      
     let sum = 0
 
-    for (let i of myArray) {
+    for (let i of myOriginArray) {
       
       let probability = parseInt(i.probability)
       
       let concequence = parseInt(i.concequence)
 
-      sum += (probability * concequence) / len 
+      sum += (probability * concequence) / risksLen 
 
     }
     return (sum);
 
   }
 
-
-
-  let total =avreg(DataArray,risksLen)
+  let total =avreg()
 
   sqlKeys.push("total")
 
   sqlValues.push(total)
   
 
-
-
-
-
-
 sqlKeys= sqlKeys.join(",")
 
 sqlValues = sqlValues.join(",")
 
- console.log("sqlKeys", sqlKeys );
-
-console.log("------------------");
-
-console.log("sqlValues",sqlValues);
 
 const projectName = req.body.projectName
 
@@ -151,20 +107,14 @@ const projectName = req.body.projectName
 const insertInDb = (project,sqlKeys,sqlValues) => {
     
   
-  
-  
-      const  sql = `INSERT INTO ${project} (${sqlKeys}) VALUES 
-      
-          (${sqlValues} )`
+      const sql = `INSERT INTO ${project} (${sqlKeys}) VALUES(${sqlValues} )`
     
     return sql
     
   }
      
-    
       const mysql = insertInDb(projectName,sqlKeys,sqlValues)
        console.log("mysql",mysql);
-    
     
     
       connection.query(mysql, (err, result, files, rows) => {

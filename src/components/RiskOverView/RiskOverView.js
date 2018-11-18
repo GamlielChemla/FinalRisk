@@ -19,7 +19,9 @@ const RiskOverView = (props) => {
         <div className="total" >
           <div >Total Risk</div> 
           <div contentEditable="true">25</div>
+
         </div>
+          <button>delete prject</button>
       </div>
     </div>
   )
