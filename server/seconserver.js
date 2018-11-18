@@ -4,8 +4,6 @@ var bodyParser = require('body-parser')
 let router = express.Router();
 
 
-
-
 let connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
@@ -22,7 +20,7 @@ connection.connect(function (err) {
   }
 });
 
-router.post('/second', (req, res) => {
+router.post('/', (req, res) => {
 
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -63,12 +61,10 @@ router.post('/second', (req, res) => {
       
     }
     
-   
     let sqlKeys =  getKeysAndVals(arr)[0]
 
     let sqlValues =  getKeysAndVals(arr)[1]
 
-    
     const avreg = () => {
       let risksLen = req.body.data.length
       
@@ -115,7 +111,6 @@ const insertInDb = (project,sqlKeys,sqlValues) => {
      
       const mysql = insertInDb(projectName,sqlKeys,sqlValues)
        console.log("mysql",mysql);
-    
     
       connection.query(mysql, (err, result, files, rows) => {
         if (err) {

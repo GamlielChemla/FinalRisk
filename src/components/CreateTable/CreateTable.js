@@ -16,7 +16,7 @@ class CreateTable extends Component {
     console.log(this.state.sendProject);
 
     // this.setState({sendProject:sendproject})
-    axios.post("/first", this.state)
+    axios.post("/createDB", this.state)
       .then(response =>
 
         console.log("response", response)

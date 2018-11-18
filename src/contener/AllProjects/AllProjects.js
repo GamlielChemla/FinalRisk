@@ -42,7 +42,7 @@ class AllProjects extends Component {
     
     read = this.state.allProjectsList.map((elem,index) => 
     
-       <RiskOverView  riskName= {elem.Tables_in_myproject} weeksBack={this.state.weeksBack} />
+       <RiskOverView  projectName= {elem.Tables_in_myproject} weeksBack={this.state.weeksBack} />
     )}
 
     return (

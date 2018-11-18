@@ -47,8 +47,6 @@ class Project extends Component {
     totalRisk:null
   };
 
-  myProjectLocation = this.props.match.params.projectName
-
    setTotalRisk= async () =>{
       let arr=[]
       await this.state.risks.forEach(elem =>{
@@ -142,6 +140,12 @@ class Project extends Component {
         "reason" : elem.reason ,
         
       })
+      if(newData.length > 4){
+        newData[4]["riskName"]="Other1"
+      }
+      if(newData.length > 5){
+        newData[5]["riskName"]="Other2"
+      }
       console.log("newData",newData);
 
 
@@ -149,6 +153,8 @@ class Project extends Component {
 
     this.setState({ data: newData })
     console.log("data",this.state.data);
+
+
     
 
     axios.post("/second", {data:this.state.data,projectName:this.state.projectName})

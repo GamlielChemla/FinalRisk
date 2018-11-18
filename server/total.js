@@ -1,8 +1,6 @@
 let express = require('express');
 let router = express.Router();
 let mysql = require('mysql');
-// var bodyParser = require('body-parser')
-
 
 
 let connection = mysql.createConnection({
@@ -22,7 +20,7 @@ connection.connect(function (err) {
 });
 
 
-router.get("/version",(req,res)=>{
+router.get("/total/:projectName",(req,res)=>{
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -30,22 +28,23 @@ router.get("/version",(req,res)=>{
     res.header('Access-Control-Allow-Headers', '*');
     
     
+    console.log("ppara",req.params.projectName);
     console.log("2em");
     
-    
-    // viewTotal=()=>{
-    //     let version =` select total from zazaza  `
-    //     return version
-    // }
-    // console.log("body",res.version);
-    const mysqlll = viewVersion();
+    const projectName =req.params.projectName
+
+    viewTotal=(project)=>{
+        let version =` SELECT Total FROM ${project} WHERE version = (SELECT MAX (version) FROM  ${project} )`
+        return version
+    }
+    const mysqlll = viewTotal(projectName);
     
     
     connection.query(mysqlll, (err, result, files, rows) => {
         if (err) {
             console.log('error query ' + err.message);
         } else {
-            console.log("succesaaaa ", result)
+            console.log("succesTotal ", result)
             res.send(result)
         }
     })

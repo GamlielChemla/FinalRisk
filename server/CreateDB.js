@@ -2,9 +2,6 @@ const express = require('express')
 const mysql = require('mysql');
 let router = express.Router();
 
-const bodyParser = require('body-parser')
-const app = express();
-
 
 let connection = mysql.createConnection({
     host: 'localhost',
@@ -21,7 +18,7 @@ let connection = mysql.createConnection({
   
     }
   });
-  router.post("/first", (req, res)=> {
+  router.post("/", (req, res)=> {
     
   
     res.header('Access-Control-Allow-Origin', '*');

@@ -21,7 +21,7 @@ connection.connect(function (err) {
     }
 });
 
-router.get("/AllDB", (req, res) => {
+router.get("/", (req, res) => {
 
 
     res.header('Access-Control-Allow-Origin', '*');
