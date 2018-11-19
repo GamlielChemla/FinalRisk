@@ -12,7 +12,6 @@ class RiskOverView extends Component {
     total:0
   }
 
-
     componentDidMount(){
       console.log("hahahazzzz");
       
@@ -38,7 +37,6 @@ class RiskOverView extends Component {
       )
     }
 
-    
     deleteTable =()=>{ 
       alert(`are you sure you want to delete "${this.props.projectName}"`)
       axios.delete(`/del/${this.props.projectName}`)
@@ -54,7 +52,7 @@ render(){
         {this.props.projectName}</div>
       <div className="views">
         
-        <Link to={"/Project/" + this.props.projectName}>
+        <Link to={"/Project/" + this.props.projectName + '/'+this.props.weeksBack}>
 
           <button className="btnEdit">edit</button>
 

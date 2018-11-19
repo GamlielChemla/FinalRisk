@@ -44,7 +44,8 @@ class Project extends Component {
     ],
     data: [],
     projectName: this.props.match.params.projectName,
-    totalRisk:null
+    totalRisk:null,
+    weeksBack:this.props.match.params.weeksBack
   };
 
    setTotalRisk= async () =>{
@@ -157,7 +158,7 @@ class Project extends Component {
 
     
 
-    axios.post("/second", {data:this.state.data,projectName:this.state.projectName})
+    axios.post("/second", {data:this.state.data,projectName:this.state.projectName,weeksBack:this.state.weeksBack})
       .then(response =>
 
         console.log("response", response)
