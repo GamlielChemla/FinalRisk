@@ -1,8 +1,6 @@
 let express = require('express')
 let mysql = require('mysql');
-var bodyParser = require('body-parser')
 let router = express.Router();
-
 
 let connection = mysql.createConnection({
   host: 'localhost',
@@ -16,7 +14,6 @@ connection.connect(function (err) {
     console.log('error: ' + err.message);
   } else {
     console.log("connect");
-
   }
 });
 
@@ -29,7 +26,6 @@ router.post('/', (req, res) => {
 
   console.log("req", req.body)
 
-
   let arr = []
   req.body.data.forEach(element => {
     arr.push({ ["probability" + element.riskName]: element.probability })
@@ -39,88 +35,76 @@ router.post('/', (req, res) => {
 
   });
 
-  
-  const getKeysAndVals = (arr) =>{
-    arrKeys =[]
-    arrVals =[]
-    
-    arr.forEach(elem => 
-      {
-        let myKey = Object.keys(elem)[0]
-        console.log("mykey",myKey);
-        
-        
-        if(elem[myKey].length >0 || elem[myKey]> 0 ){
-           arrKeys.push (myKey)
-            
-            arrVals.push (`'${(Object.values(elem)[0])}'`)
-        }
-      })
-      
-      return [arrKeys,arrVals]
-      
-    }
-    
-    let sqlKeys =  getKeysAndVals(arr)[0]
+  const getKeysAndVals = (arr) => {
+    arrKeys = []
+    arrVals = []
 
-    let sqlValues =  getKeysAndVals(arr)[1]
+    arr.forEach(elem => {
+      let myKey = Object.keys(elem)[0]
+      console.log("mykey", myKey);
 
-    const avreg = () => {
-      let risksLen = req.body.data.length
-      
-      let myOriginArray = req.body.data
-      
-    let sum = 0
+      if (elem[myKey].length > 0 || elem[myKey] > 0) {
+        arrKeys.push(myKey)
 
-    for (let i of myOriginArray) {
-      
-      let probability = parseInt(i.probability)
-      
-      let concequence = parseInt(i.concequence)
+        arrVals.push(`'${(Object.values(elem)[0])}'`)
+      }
+    })
 
-      sum += (probability * concequence) / risksLen 
-
-    }
-    return Math.ceil(sum);
+    return [arrKeys, arrVals]
 
   }
 
-  let total =avreg()
+  let sqlKeys = getKeysAndVals(arr)[0]
+
+  let sqlValues = getKeysAndVals(arr)[1]
+
+  const avreg = () => {
+    let risksLen = req.body.data.length
+
+    let myOriginArray = req.body.data
+
+    let sum = 0
+
+    for (let i of myOriginArray) {
+
+      let probability = parseInt(i.probability)
+
+      let concequence = parseInt(i.concequence)
+
+      sum += (probability * concequence) / risksLen
+
+    }
+    return Math.ceil(sum);
+  }
+
+  let total = avreg()
 
   sqlKeys.push("total")
 
   sqlValues.push(total)
-  
 
-sqlKeys= sqlKeys.join(",")
+  sqlKeys = sqlKeys.join(",")
 
-sqlValues = sqlValues.join(",")
+  sqlValues = sqlValues.join(",")
 
+  const projectName = req.body.projectName
 
-const projectName = req.body.projectName
+  const insertInDb = (project, sqlKeys, sqlValues) => {
 
-
-const insertInDb = (project,sqlKeys,sqlValues) => {
-    
-  
-      const sql = `INSERT INTO ${project} (${sqlKeys}) VALUES(${sqlValues} )`
-    
+    const sql = `INSERT INTO ${project} (${sqlKeys}) VALUES(${sqlValues} )`
     return sql
-    
   }
-     
-      const mysql = insertInDb(projectName,sqlKeys,sqlValues)
-       console.log("mysql",mysql);
-    
-      connection.query(mysql, (err, result, files, rows) => {
-        if (err) {
-          console.log('error query  ' + err.message);
-        } else {
-          console.log("succes ", result)
-    
-        }
-      })
-    
-    })
-  
+  const mysql = insertInDb(projectName, sqlKeys, sqlValues)
+  console.log("mysql", mysql);
+
+  connection.query(mysql, (err, result, files, rows) => {
+    if (err) {
+      console.log('error query  ' + err.message);
+    } else {
+      console.log("succes ", result)
+
+    }
+  })
+  // connection.end()
+})
 module.exports = router;

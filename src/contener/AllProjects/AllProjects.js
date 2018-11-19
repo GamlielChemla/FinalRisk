@@ -6,14 +6,26 @@ import CreateTable from '../../components/CreateTable/CreateTable'
 import RiskOverView from '../../components/RiskOverView/RiskOverView'
 
 
-
 class AllProjects extends Component {
   
   state = {
     allProjectsList: null,
-    weeksBack:0
+    weeksBack:1
   }
-  
+
+
+
+
+  weeksBackFunc =()=>{
+    this.setState({weeksBack:this.state.weeksBack+1})
+    console.log("week", this.state.weeksBack);
+  }
+
+  weeksNextFunc =()=>{
+    this.setState({weeksBack:this.state.weeksBack-1})
+    console.log("week", this.state.weeksBack);
+  }
+
   componentDidMount() {
     axios.get("/AllDB")
       .then((response) => {
@@ -45,9 +57,23 @@ class AllProjects extends Component {
        <RiskOverView  projectName= {elem.Tables_in_myproject} weeksBack={this.state.weeksBack} />
     )}
 
+    let allWeek = this.state.weeksBack
+    let nextbtn = null
+
+    if(allWeek >0){
+      nextbtn = <button className = "next" onClick={this.weeksNextFunc}>next</button>
+    }
+    else{
+      nextbtn =  <button className='version' >new version</button>
+    }
+
+
     return (
       <div>
-      <button className = "previous" onClick={this.getVersion} >previous</button>
+
+        {nextbtn}
+
+      <button className = "previous" onClick={this.weeksBackFunc} >previous</button>
       {/* <button className = "next">next</button> */}
 
       <CreateTable/>

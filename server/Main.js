@@ -12,14 +12,11 @@ app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({extended:true}));
 
 
-app.use('/AllDB',AllDB)
-app.use('/second',second)
+app.use('/AllDB', AllDB)
+app.use('/second', second)
 app.use('/createDB', createDB)
-app.use('/del',del)
-app.use('/',total)
-
-
-
+app.use('/del', del)
+app.use('/', total)
 
 
 const port = 4000;

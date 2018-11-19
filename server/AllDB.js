@@ -1,9 +1,6 @@
 let express = require('express');
 let router = express.Router();
 let mysql = require('mysql');
-// var bodyParser = require('body-parser')
-
-
 
 let connection = mysql.createConnection({
     host: 'localhost',
@@ -17,12 +14,10 @@ connection.connect(function (err) {
         console.log('error: ' + err.message);
     } else {
         console.log("connect");
-
     }
 });
 
 router.get("/", (req, res) => {
-
 
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
@@ -31,10 +26,7 @@ router.get("/", (req, res) => {
 
     console.log("1er");
 
-    
-
     const mysqlll = `show tables`;
-
 
     connection.query(mysqlll, (err, result, files, rows) => {
         if (err) {
@@ -44,7 +36,7 @@ router.get("/", (req, res) => {
             res.send(result)
         }
     })
+    // connection.end()
 }
 )
-
 module.exports = router;

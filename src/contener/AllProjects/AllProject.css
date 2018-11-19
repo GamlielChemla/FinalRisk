@@ -64,3 +64,21 @@
   border-radius: 5px;
   
 }
+
+.next {
+  background: brown;
+  position: absolute;
+  right: 50px;
+  width: 100px;
+  border: 2px solid darkred;
+  border-radius: 5px;
+}
+
+.version {
+  background: brown;
+  position: absolute;
+  right: 50px;
+  width: 100px;
+  border: 2px solid darkred;
+  border-radius: 5px;
+}
