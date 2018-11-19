@@ -2,7 +2,7 @@ import React ,{Component} from "react";
 import { Link } from 'react-router-dom'
 import axios from "axios";
 // import { log } from "util";
-import './RiskOverView.css'
+import './RiskOverView.css';
 
 
 
@@ -14,12 +14,14 @@ class RiskOverView extends Component {
 
 
     componentDidMount(){
-
+      console.log("hahahazzzz");
+      
       let projectName= this.props.projectName
       console.log(projectName);
       
       axios.get('/total/'+projectName)
        .then(response => {
+
 
         console.log("myreponce", response.data)
 
@@ -31,20 +33,20 @@ class RiskOverView extends Component {
         
 
         console.log("ttott", this.state.total);
-        
-      }
+        }
+      
       )
     }
 
     
-  deleteTable =()=>{
-    axios.delete(`/del/${this.props.projectName}`)
-    
-    
-  }
+    deleteTable =()=>{ 
+      alert(`are you sure you want to delete "${this.props.projectName}"`)
+      axios.delete(`/del/${this.props.projectName}`)
+    }
 
 render(){  
   return (
+
     <div>
       <div className="elemDiv">
         <br /><br /><br />
@@ -58,8 +60,9 @@ render(){
 
         </Link>
         <br />
+          <button className="btndelete" onClick = {this.deleteTable}>delete project</button>
 
-        
+        {/* <button className="totalbtn" onClick={this.totalclick}>tottalclik</button> */}
 
         <div className="total" >
           <div >Total Risk</div> 
@@ -67,8 +70,11 @@ render(){
           <div contentEditable="true">{this.state.total}</div>
 
         </div>
-          <button onClick = {this.deleteTable}>delete project</button>
+
+         {/* <button className="totalbtn" onClick={this.totalclick}>tottalclik</button>
+         */}
       </div>
+
     </div>
   )
 }

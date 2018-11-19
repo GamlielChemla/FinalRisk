@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import { BrowserRouter, Route ,Link} from 'react-router-dom'
+import { BrowserRouter} from 'react-router-dom'
 
 // import Project from './contener/Project/Project'
 // import AllProjects from './contener/AllProjects/AllProjects'

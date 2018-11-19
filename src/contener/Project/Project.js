@@ -130,7 +130,7 @@ class Project extends Component {
   postHandle = async () => {
 
     let newData = []
-    let arr = [... this.state.risks]
+    let arr = [...this.state.risks]
     await arr.map((elem) => {
       newData.push({
         riskName: elem.riskName,

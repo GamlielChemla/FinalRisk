@@ -39,16 +39,16 @@ router.get("/total/:projectName",(req,res)=>{
     }
     const mysqlll = viewTotal(projectName);
     
-    
     connection.query(mysqlll, (err, result, files, rows) => {
         if (err) {
             console.log('error query ' + err.message);
         } else {
+            if(typeof result !== 'undefined' && result.length > 0){
             console.log("succesTotal ", result)
             res.send(result)
+            }
         }
     })
 }
 )
-
 module.exports = router;

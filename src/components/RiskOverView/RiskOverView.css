@@ -1,0 +1,22 @@
+.btndelete{
+    position: absolute;
+    right: 25px;
+    border-radius: 8px;
+    background: purple;
+    border: 2px solid saddlebrown;
+    font-weight: bold;
+
+}
+.totalbtn{
+    position: absolute;
+    right: 20px;
+    /* top: 3.5cm; */
+    background: green;
+    margin: 35px;
+}
+#alert{
+background: red;
+color: white;
+font-weight: bold;
+
+}

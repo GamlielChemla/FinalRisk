@@ -30,7 +30,8 @@ class MySelect extends Component{
 
           <select name = "probability"  onChange={this.props.addDataToState.bind(this,this.props.riskName)} >
           
-          <option value="disabled selected" >Select your probability</option>
+          <option value="0" >Select your probability</option>
+            
             
             <option value="1">1</option>
             <option value="2">2</option>
@@ -41,8 +42,9 @@ class MySelect extends Component{
           </select>
 
           <select name = "concequence"  onChange ={this.props.addDataToState.bind(this,this.props.riskName)} >
-            <option value="disabled selected"  >Select your concequence</option>
+            <option value="0"  >Select your concequence</option>
             
+           
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
