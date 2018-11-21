@@ -38,8 +38,12 @@ class RiskOverView extends Component {
     }
 
     deleteTable =()=>{ 
-      alert(`are you sure you want to delete "${this.props.projectName}"`)
+let confirms = window.confirm(`are you sure you want to delete "${this.props.projectName}"`)
+
+    if (confirms){
       axios.delete(`/del/${this.props.projectName}`)
+
+    }
     }
 
 render(){  
@@ -52,7 +56,7 @@ render(){
         {this.props.projectName}</div>
       <div className="views">
         
-        <Link to={"/Project/" + this.props.projectName + '/'+this.props.weeksBack}>
+        <Link to={"/Project/" + this.props.projectName /**  + '/'+this.props.weeksBack*/}>
 
           <button className="btnEdit">edit</button>
 

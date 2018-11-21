@@ -6,6 +6,8 @@ const second = require('./seconserver')
 const createDB = require('./CreateDB')
 const total = require('./total')
 const del = require('./delete')
+const allVersion = require('./allVersion')
+const getLastWeek = require('./getLastWeek')
 
 
 app.use(bodyParser.json());
@@ -17,6 +19,8 @@ app.use('/second', second)
 app.use('/createDB', createDB)
 app.use('/del', del)
 app.use('/', total)
+app.use('/allVersion', allVersion)
+app.use('/', getLastWeek)
 
 
 const port = 4000;

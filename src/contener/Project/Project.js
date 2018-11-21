@@ -8,6 +8,7 @@ import axios from "axios";
 import MySelect from "../../components/MySelect/MySelect";
 
 import NewRisk from "../../components/NewRisk/NewRisk";
+import { version } from "punycode";
 
 class Project extends Component {
 
@@ -44,25 +45,62 @@ class Project extends Component {
     ],
     data: [],
     projectName: this.props.match.params.projectName,
-    totalRisk:null,
-    weeksBack:this.props.match.params.weeksBack
+    totalRisk: null,
+    week:null,
+    
+    // weeksBack: this.props.match.params.weeksBack,
   };
 
-   setTotalRisk= async () =>{
-      let arr=[]
-      await this.state.risks.forEach(elem =>{
-        arr.push(((elem.probability *elem.concequence)/this.state.risks.length))
-        
-      })
+  // weeksBackFunc = () => {
+  //   this.setState({ weeksBack: this.state.weeksBack - 1 })
+  //   console.log("week", this.state.weeksBack);
 
-      let sum = await arr.reduce((all,item ) =>{
-          return all+item
-      })
-      console.log("my sum" ,sum);
+  // }
+
+  // weeksNextFunc = () => {
+  //   this.setState({ weeksBack: this.state.weeksBack + 1 })
+  //   console.log("week", this.state.weeksBack);
+  // }
+
+ componentDidMount(){
+  axios.get("/getLastWeek/"+this.props.match.params.projectName)
+  .then(res =>{
+    let arr=[]
+    let data= res.data[0];
+    for (const key in data) {
+      if (data[key]) {
+      arr.push(data[key] )
+        
+      }
+    }
+
+    console.log("lastWeek",res.data[0]);
+    
+
+     console.log("arr",arr )
+;
       
-      this.setState({totalRisk:Math.ceil(sum)})
+
+
+  })
+
+}
+
+  setTotalRisk = async () => {
+    let arr = []
+    await this.state.risks.forEach(elem => {
+      arr.push(((elem.probability * elem.concequence) / this.state.risks.length))
+
+    })
+
+    let sum = await arr.reduce((all, item) => {
+      return all + item
+    })
+    console.log("my sum", sum);
+
+    this.setState({ totalRisk: Math.ceil(sum) })
   }
-  ;
+    ;
   addNewRisk = e => {
     e.preventDefault();
 
@@ -136,29 +174,29 @@ class Project extends Component {
       newData.push({
         riskName: elem.riskName,
         "probability": elem.probability,
-        "concequence" : elem.concequence,
-        "mitigation" : elem.mitigation ,
-        "reason" : elem.reason ,
-        
+        "concequence": elem.concequence,
+        "mitigation": elem.mitigation,
+        "reason": elem.reason,
+
       })
-      if(newData.length > 4){
-        newData[4]["riskName"]="Other1"
+      if (newData.length > 4) {
+        newData[4]["riskName"] = "Other1"
       }
-      if(newData.length > 5){
-        newData[5]["riskName"]="Other2"
+      if (newData.length > 5) {
+        newData[5]["riskName"] = "Other2"
       }
-      console.log("newData",newData);
+      console.log("newData", newData);
 
 
     })
 
     this.setState({ data: newData })
-    console.log("data",this.state.data);
+    console.log("data", this.state.data);
 
 
-    
 
-    axios.post("/second", {data:this.state.data,projectName:this.state.projectName,weeksBack:this.state.weeksBack})
+
+    axios.post("/second", { data: this.state.data, projectName: this.state.projectName, weeksBack: this.state.weeksBack })
       .then(response =>
 
         console.log("response", response)
@@ -183,31 +221,47 @@ class Project extends Component {
     ));
 
     let showAddNewRisk = null
-    if(this.state.risks.length < 6){
-      showAddNewRisk =<NewRisk addNewRisk={this.addNewRisk} />
+    if (this.state.risks.length < 6) {
+      showAddNewRisk = <NewRisk addNewRisk={this.addNewRisk} />
     }
+
+    let week = this.state.week
+
+    let nextbtn = null
+
+    if (week > 0) {
+      nextbtn = <button className="next" onClick={this.weeksNextFunc}>next</button>
+    }
+    else {
+      nextbtn = <button className='version' onClick={this.addNewVersion}>new version</button>
+    }
+
+
     return (
       <div className="App">
+        <div>10/12/18</div>
         <div> project name : {this.state.projectName}</div>
         <div> Total Risk : {this.state.totalRisk} </div>
-  
 
 
+        <button className="previous">previous</button>
+        {nextbtn}
         {mySelectsList}
         {showAddNewRisk}
         
 
-         <button className="save" type="submit" onClick={()=>{this.postHandle() ; this.setTotalRisk()}  }>
+
+        <button className="save" type="submit" onClick={() => { this.postHandle(); this.setTotalRisk() }}>
           save
         </button>
- 
+
         <Link to={"/"}>
           <button className="Done" type="submit"  >
             Done
         </button>
         </Link>
 
-    
+
       </div>
     );
   }

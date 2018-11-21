@@ -15,6 +15,8 @@ class App extends Component {
           <div>
             
             <Route exact path="/" component={AllProjects}></Route>
+            {/* <Route path="/Project/:projectName" component={Project}></Route> */}
+
             <Route path="/Project/:projectName/:weeksBack" component={Project}></Route>
           </div>
 

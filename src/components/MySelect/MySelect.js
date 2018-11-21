@@ -27,6 +27,10 @@ class MySelect extends Component{
    <div className="Risk"> {<h1 name ="riskName "> {this.props.riskName} </h1>}
           
    <br/>
+        
+
+
+          
 
           <select name = "probability"  onChange={this.props.addDataToState.bind(this,this.props.riskName)} >
           
