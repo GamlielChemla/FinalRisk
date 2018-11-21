@@ -62,29 +62,56 @@ class Project extends Component {
   //   console.log("week", this.state.weeksBack);
   // }
 
- componentDidMount(){
-  axios.get("/getLastWeek/"+this.props.match.params.projectName)
-  .then(res =>{
-    let arr=[]
-    let data= res.data[0];
-    for (const key in data) {
-      if (data[key]) {
-      arr.push(data[key] )
-        
-      }
-    }
-
-    console.log("lastWeek",res.data[0]);
+  // getLastWeek = ()=>{
+  //   this.setState({week:this.state.week+1})
+  //   console.log("week",this.state.week);
     
+  // }
 
-     console.log("arr",arr )
-;
+  componentDidMount(){
+    console.log("xxg");
+    
+    axios.get("/getLastWeek/"+this.props.match.params.projectName)
+    .then(res =>{
+      let arr=[]
+      let data= res.data[0];
       
-
-
-  })
-
-}
+      for (const key in data) {
+        if (data[key]) {
+  
+          switch (key) {
+            case key.includes("test"): 
+            let PMCR= key.replace("test","")
+              let objToState= {riskName:'test'} 
+              objToState[PMCR] =data[key] 
+               console.log("lll",objToState);
+               
+              
+              break;
+          
+            default:
+            console.log("lala");
+            
+              break;
+          }
+            
+          
+          
+          
+        }
+      }
+  
+      console.log("lastWeek",res.data[0]);
+      
+  
+       console.log("arr",arr )
+  ;
+        
+  
+  
+    })
+  
+  }
 
   setTotalRisk = async () => {
     let arr = []
@@ -196,7 +223,10 @@ class Project extends Component {
 
 
 
-    axios.post("/second", { data: this.state.data, projectName: this.state.projectName, weeksBack: this.state.weeksBack })
+    axios.post("/second", 
+    {data: this.state.data,
+    projectName: this.state.projectName, 
+    weeksBack: this.state.weeksBack })
       .then(response =>
 
         console.log("response", response)
@@ -233,7 +263,8 @@ class Project extends Component {
       nextbtn = <button className="next" onClick={this.weeksNextFunc}>next</button>
     }
     else {
-      nextbtn = <button className='version' onClick={this.addNewVersion}>new version</button>
+      nextbtn = <button className='version' onClick={console.log("press")
+      }>new version</button>
     }
 
 
