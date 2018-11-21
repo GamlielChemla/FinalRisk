@@ -80,7 +80,8 @@ class Project extends Component {
         if (data[key]) {
   
           switch (key) {
-            case key.includes("test"): 
+            case key.includes('test'):
+            
             let PMCR= key.replace("test","")
               let objToState= {riskName:'test'} 
               objToState[PMCR] =data[key] 
@@ -95,8 +96,6 @@ class Project extends Component {
               break;
           }
             
-          
-          
           
         }
       }
