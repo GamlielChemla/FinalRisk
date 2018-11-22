@@ -24,11 +24,11 @@ router.get("/total/:projectName", (req, res) => {
     res.header('Access-Control-Allow-Headers', '*');
 
     console.log("ppara", req.params.projectName);
-    console.log("2em");
+    console.log("total");
 
     const projectName = req.params.projectName
 
-    viewTotal = (project) => {
+     viewTotal = (project) => {
         let version = ` SELECT Total FROM ${project} WHERE version = (SELECT MAX (version) FROM  ${project} )`
         return version
     }
@@ -36,15 +36,19 @@ router.get("/total/:projectName", (req, res) => {
 
     connection.query(mysqlll, (err, result, files, rows) => {
         if (err) {
-            console.log('error query ' + err.message);
+            console.log('error query total ' + err.message);
         } else {
             if (typeof result !== 'undefined' && result.length > 0) {
-                console.log("succesTotal ", result)
+                console.log("succesTotal :", result)
                 res.send(result)
             }
         }
     })
-    // connection.end()
-}
-)
+    // connection.end(function(err) {
+    //     if (err) {
+    //       return console.log('error:' + err.message);
+    //     }
+    //     console.log('Close the database connection.');
+    //   });
+})
 module.exports = router;

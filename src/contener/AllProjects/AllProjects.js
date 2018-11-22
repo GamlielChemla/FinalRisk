@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import RiskOverView from '../../components/RiskOverView/RiskOverView'
 import './AllProject.css'
 import axios from 'axios';
 import CreateTable from '../../components/CreateTable/CreateTable'
@@ -59,7 +58,7 @@ class AllProjects extends Component {
 
       read = this.state.allProjectsList.map((elem, index) =>
 
-        <RiskOverView projectName={elem.Tables_in_myproject} weeksBack={this.state.weeksBack} />
+        <RiskOverView key={index} projectName={elem.Tables_in_myproject} weeksBack={this.state.weeksBack} />
       )
     }
 

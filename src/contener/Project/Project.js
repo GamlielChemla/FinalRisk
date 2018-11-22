@@ -1,14 +1,10 @@
 import React, { Component } from "react";
 import "./Project.css";
 import { Link } from 'react-router-dom'
-
-
 import axios from "axios";
-
 import MySelect from "../../components/MySelect/MySelect";
-
 import NewRisk from "../../components/NewRisk/NewRisk";
-import { version } from "punycode";
+
 
 class Project extends Component {
 
@@ -46,8 +42,8 @@ class Project extends Component {
     data: [],
     projectName: this.props.match.params.projectName,
     totalRisk: null,
-    week:null,
-    
+    week: null,
+
     // weeksBack: this.props.match.params.weeksBack,
   };
 
@@ -65,51 +61,44 @@ class Project extends Component {
   // getLastWeek = ()=>{
   //   this.setState({week:this.state.week+1})
   //   console.log("week",this.state.week);
-    
+
   // }
 
-  componentDidMount(){
-    console.log("xxg");
-    
-    axios.get("/getLastWeek/"+this.props.match.params.projectName)
-    .then(res =>{
-      let arr=[]
-      let data= res.data[0];
-      
-      for (const key in data) {
-        if (data[key]) {
-  
-          switch (key) {
-            case key.includes('test'):
-            
-            let PMCR= key.replace("test","")
-              let objToState= {riskName:'test'} 
-              objToState[PMCR] =data[key] 
-               console.log("lll",objToState);
-               
-              
-              break;
-          
-            default:
-            console.log("lala");
-            
-              break;
-          }
-            
-          
-        }
-      }
-  
-      console.log("lastWeek",res.data[0]);
-      
-  
-       console.log("arr",arr )
-  ;
+  componentDidMount() {
+
+    axios.get("/getLastWeek/" + this.props.match.params.projectName)
+      .then(res => {
+        let arr = []
+        let data = res.data[0];
         
-  
-  
-    })
-  
+        console.log("data", data);
+
+
+        for (const key in data) {
+          if (data[key]) {
+            console.log("kk", key);
+
+
+            switch (true) {
+              case key.toLowerCase().includes("test"):
+                let mykey = key.replace("Test", "").toLowerCase()
+                console.log("mm", mykey);
+
+                let newlist = [...this.state.risks]
+                // console.log(typeof newlist);
+
+                console.log(newlist[0] === this.state.risks[0])
+                break;
+
+              default:
+                console.log("lala");
+
+                break;
+            }
+          }
+        }
+        //  console.log("arr",arr )
+      })
   }
 
   setTotalRisk = async () => {
@@ -196,14 +185,16 @@ class Project extends Component {
 
     let newData = []
     let arr = [...this.state.risks]
-    await arr.map((elem) => {
+
+    await arr.map((elem, index) => {
+
+
       newData.push({
         riskName: elem.riskName,
         "probability": elem.probability,
         "concequence": elem.concequence,
         "mitigation": elem.mitigation,
         "reason": elem.reason,
-
       })
       if (newData.length > 4) {
         newData[4]["riskName"] = "Other1"
@@ -212,20 +203,19 @@ class Project extends Component {
         newData[5]["riskName"] = "Other2"
       }
       console.log("newData", newData);
-
-
     })
 
     this.setState({ data: newData })
     console.log("data", this.state.data);
 
 
+    axios.post("/second",
+      {
+        data: this.state.data,
+        projectName: this.state.projectName,
+        weeksBack: this.state.weeksBack
+      })
 
-
-    axios.post("/second", 
-    {data: this.state.data,
-    projectName: this.state.projectName, 
-    weeksBack: this.state.weeksBack })
       .then(response =>
 
         console.log("response", response)
@@ -262,8 +252,7 @@ class Project extends Component {
       nextbtn = <button className="next" onClick={this.weeksNextFunc}>next</button>
     }
     else {
-      nextbtn = <button className='version' onClick={console.log("press")
-      }>new version</button>
+      nextbtn = <button className='version'>new version</button>
     }
 
 
@@ -278,7 +267,7 @@ class Project extends Component {
         {nextbtn}
         {mySelectsList}
         {showAddNewRisk}
-        
+
 
 
         <button className="save" type="submit" onClick={() => { this.postHandle(); this.setTotalRisk() }}>

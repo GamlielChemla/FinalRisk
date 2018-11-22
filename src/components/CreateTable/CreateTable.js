@@ -5,9 +5,7 @@ import axios from 'axios';
 
 
 class CreateTable extends Component {
-  // constructor(props) {
-  //   super(props)
-  // }
+ 
   state = {
     sendProject: ""
   }
@@ -16,6 +14,8 @@ class CreateTable extends Component {
     console.log(this.state.sendProject);
 
     // this.setState({sendProject:sendproject})
+    document.location.reload()
+    
     axios.post("/createDB", this.state)
       .then(response =>
 
@@ -25,6 +25,7 @@ class CreateTable extends Component {
         console.log("err", err.message);
 
       })
+      
   }
   render() {
     return (

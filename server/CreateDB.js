@@ -25,7 +25,7 @@ router.post("/", (req, res) => {
   res.header('Access-Control-Max-Age', 86400)
   res.header('Access-Control-Allow-Headers', '*');
 
-  console.log("1er");
+  console.log("create");
 
   insertTBDb = (req) => {
 
@@ -38,12 +38,17 @@ router.post("/", (req, res) => {
 
   connection.query(mysqlll, (err, result, files, rows) => {
     if (err) {
-      console.log('error query ' + err.message);
+      console.log('error query create' + err.message);
     } else {
-      console.log("succes ", result)
+      console.log("succes: ", result)
 
     }
   })
-  // connection.end()
 })
+    // connection.end(function(err) {
+    //   if (err) {
+    //     return console.log('error:' + err.message);
+    //   }
+    //   console.log('Close the database connection.');
+    // });
 module.exports = router;
