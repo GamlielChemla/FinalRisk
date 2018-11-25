@@ -27,13 +27,19 @@ class CreateTable extends Component {
       })
       
   }
+  pressed = (e)=>{
+    if(e.key === 'Enter'){
+      this.sendproject()
+      
+    }
+  }
   render() {
     return (
       <div className="first">
        
 
-        <input type="text" placeholder="enter your project" onChange={(event) => this.setState({ sendProject: event.target.value })} />
-        <button type="submit" onClick={this.sendproject}> send</button>
+        <input type="text"  placeholder="enter your project" onKeyPress={this.pressed}onChange={(event) => this.setState({ sendProject: event.target.value })} />
+        <button type="submit" onKeyPress={this.pressed}  onClick={this.sendproject}> send</button>
 
       </div>
     )

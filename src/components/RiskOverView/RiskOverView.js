@@ -14,9 +14,11 @@ class RiskOverView extends Component {
 
   componentDidMount() {
     console.log("hahahazzzz");
+    console.log(this.props.projectName);
+
 
     let projectName = this.props.projectName
-    console.log("kk", projectName);
+    console.log(projectName);
 
     axios.get('/total/' + projectName)
       .then(response => {
@@ -39,11 +41,19 @@ class RiskOverView extends Component {
 
   deleteTable = () => {
     let confirms = window.confirm(`are you sure you want to delete "${this.props.projectName}"`)
+
     if (confirms) {
       axios.delete(`/del/${this.props.projectName}`)
       document.location.reload()
+    }
+  }
+
+  pressed = (e) => {
+    if (e.key === 'Enter') {
+      this.deleteTable()
 
     }
+
   }
 
   render() {
@@ -62,7 +72,7 @@ class RiskOverView extends Component {
 
           </Link>
           <br />
-          <button className="btndelete" onClick={this.deleteTable}>delete project</button>
+          <button className="btndelete" onKeyPress={this.pressed} onClick={this.deleteTable}>delete project</button>
 
           {/* <button className="totalbtn" onClick={this.totalclick}>tottalclik</button> */}
 
@@ -72,6 +82,9 @@ class RiskOverView extends Component {
             <div contentEditable="true">{this.state.total}</div>
 
           </div>
+
+          {/* <button className="totalbtn" onClick={this.totalclick}>tottalclik</button>
+         */}
         </div>
 
       </div>
@@ -80,4 +93,3 @@ class RiskOverView extends Component {
 }
 
 export default RiskOverView
-

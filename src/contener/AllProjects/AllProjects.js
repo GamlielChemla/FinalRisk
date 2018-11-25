@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
+// import RiskOverView from '../../components/RiskOverView/RiskOverView'
 import './AllProject.css'
 import axios from 'axios';
 import CreateTable from '../../components/CreateTable/CreateTable'
 import RiskOverView from '../../components/RiskOverView/RiskOverView'
 
 
+
+
+
+
 class AllProjects extends Component {
 
   state = {
-    allProjectsList: null,
-    // weeksBack: 0
-  }
+    allProjectsList: null  }
 
 
   
@@ -19,7 +22,7 @@ class AllProjects extends Component {
     axios.get("/AllDB")
       .then((response) => {
 
-        console.log("qqqqqqqqqq", response)
+        console.log("qqqqqqqqqqsdad", response)
 
         this.setState({
           allProjectsList: response.data
@@ -36,20 +39,7 @@ class AllProjects extends Component {
   }
 
 
-  // allversion = () => {
-  //   axios.get('/allVersion')
-  //     .then((responce) => {
-  //       console.log("versionfront", responce)
 
-  //     })
-  // }
-  // addNewVersion =()=>{
-  //   axios.get('/newVersion').then(responce=>{
-      
-  //     console.log("new",responce);
-      
-  //   })
-  // }
 
   render() {
     let read = []
@@ -58,18 +48,14 @@ class AllProjects extends Component {
 
       read = this.state.allProjectsList.map((elem, index) =>
 
-        <RiskOverView key={index} projectName={elem.Tables_in_myproject} weeksBack={this.state.weeksBack} />
+        <RiskOverView projectName={elem.Tables_in_myproject} key={index}  />
       )
     }
 
    
     return (
       <div>
-
-
-        {/* <button className="previous" onClick={() => {this.allversion(); this.weeksBackFunc() }}>previous</button> */}
-
-
+       
         <CreateTable />
         {read}
 

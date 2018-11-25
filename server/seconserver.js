@@ -25,7 +25,10 @@ router.post('/', (req, res) => {
   res.header('Access-Control-Allow-Headers', '*');
 
 
+  console.log("alldb",req.body.week);
   let arr = []
+
+
   req.body.data.forEach(element => {
     arr.push({ ["probability" + element.riskName]: element.probability })
     arr.push({ ["concequence" + element.riskName]: element.concequence })
@@ -40,7 +43,7 @@ router.post('/', (req, res) => {
 
     arr.forEach(elem => {
       let myKey = Object.keys(elem)[0]
-      console.log("mykey", myKey);
+      // console.log("mykey", myKey);
 
       if (elem[myKey].length > 0 || elem[myKey] > 0) {
         arrKeys.push(myKey)
@@ -94,7 +97,7 @@ router.post('/', (req, res) => {
     return sql
   }
   const mysql = insertInDb(projectName, sqlKeys, sqlValues)
-  console.log("mysql", mysql);
+  // console.log("mysql", mysql);
 
   connection.query(mysql, (err, result, files, rows) => {
     if (err) {
