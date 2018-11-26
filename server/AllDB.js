@@ -24,7 +24,7 @@ router.get("/", (req, res) => {
     res.header('Access-Control-Max-Age', 86400)
     res.header('Access-Control-Allow-Headers', '*');
 
-    
+    console.log("1er");
 
     const mysqlll = `show tables`;
 
@@ -32,15 +32,11 @@ router.get("/", (req, res) => {
         if (err) {
             console.log('error query ' + err.message);
         } else {
-            console.log("succes show:", result)
+            console.log("succesaaaa ", result)
             res.send(result)
         }
     })
-})
-        // connection.end(function(err) {
-        //     if (err) {
-        //       return console.log('error show:' + err.message);
-        //     }
-        //     console.log('Close the database connection.');
-        //   });
+    // connection.end()
+}
+)
 module.exports = router;

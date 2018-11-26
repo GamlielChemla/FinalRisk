@@ -9,6 +9,7 @@ let connection = mysql.createConnection({
   database: "myproject"
 
 });
+
 connection.connect(function (err) {
   if (!!err) {
     console.log('error: ' + err.message);
@@ -17,29 +18,39 @@ connection.connect(function (err) {
 
   }
 });
-router.delete("/:projectName", (req, res) => {
+
+router.get("/getNextWeek/:projectName/:currentWeek", (req, res) => {
 
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header('Access-Control-Max-Age', 86400)
   res.header('Access-Control-Allow-Headers', '*');
 
-  const projectName = req.params.projectName
-  deleteTable = () => {
+  console.log("1er" ,req.params);
 
-    let table = ` drop table ${projectName}`
-    return table
+  insertTBDb = () => {
+
+    const project  = req.params.projectName ;
+    const currentWeek = req.params.currentWeek ;
+
+    const sql = ` SELECT * FROM ${project} where week = ${currentWeek}  order by version DESC limit 1 `
+    
+    return sql
   }
-  const mysqlll = deleteTable();
+
+  
+  const mysqlll = insertTBDb();
 
   connection.query(mysqlll, (err, result, files, rows) => {
     if (err) {
       console.log('error query ' + err.message);
     } else {
-      console.log("succes ", result)
+    //   console.log("succes ", result)
 
+        
+        
+        res.send(result);
     }
   })
-  // connection.end()
 })
 module.exports = router;

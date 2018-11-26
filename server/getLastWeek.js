@@ -19,51 +19,35 @@ connection.connect(function (err) {
   }
 });
 
-router.get("/getLastWeek/:projectName", (req, res) => {
+router.get("/getLastWeek/:projectName/:currentWeek", (req, res) => {
 
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header('Access-Control-Max-Age', 86400)
   res.header('Access-Control-Allow-Headers', '*');
 
-  console.log("lastWeek");
-  let previousWeek = null;
+  console.log("1er" ,req.params);
 
-  insertTBDb = (project) => {
+  insertTBDb = () => {
 
-    // let sendProject = req.body.sendProject
+    const project  = req.params.projectName ;
+    const currentWeek = req.params.currentWeek ;
 
-    let sql = ` SELECT * FROM ${project} order by week desc, version desc limit 1 `
+    const sql = ` SELECT * FROM ${project} where week = ${currentWeek}  order by version DESC limit 1 `
     
     return sql
   }
-
-  const myProject  = req.params.projectName
-  console.log("cfcxgf", myProject);
   
-  const mysqlll = insertTBDb(myProject);
+  const mysqlll = insertTBDb();
 
   connection.query(mysqlll, (err, result, files, rows) => {
     if (err) {
-      console.log('error query week' + err.message);
+      console.log('error query ' + err.message);
     } else {
-      console.log("succes: ", result)
+      console.log("succes ", result)
 
-        // previousWeek =Object.values(result[0])[0]
-        
-        // let newVersion = previousWeek+1
-        // console.log("newVersion",newVersion);
-        
-        // console.log("pp",Object.values(previousWeek)[0])
-        
         res.send(result);
     }
   })
 })
-    // connection.end(function(err) {
-    //   if (err) {
-    //     return console.log('error:' + err.message);
-    //   }
-    //   console.log('Close the database connection.');
-    // });
 module.exports = router;

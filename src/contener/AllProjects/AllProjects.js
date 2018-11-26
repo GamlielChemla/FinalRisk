@@ -5,18 +5,11 @@ import axios from 'axios';
 import CreateTable from '../../components/CreateTable/CreateTable'
 import RiskOverView from '../../components/RiskOverView/RiskOverView'
 
-
-
-
-
-
 class AllProjects extends Component {
 
   state = {
-    allProjectsList: null  }
-
-
-  
+    allProjectsList: null
+  }
 
   componentDidMount() {
     axios.get("/AllDB")
@@ -29,17 +22,12 @@ class AllProjects extends Component {
         })
         console.log(this.state.allProjectsList)
 
-      }
-      )
+      })
       .catch(err => {
         console.log("err", err.message);
 
-
       })
   }
-
-
-
 
   render() {
     let read = []
@@ -48,14 +36,14 @@ class AllProjects extends Component {
 
       read = this.state.allProjectsList.map((elem, index) =>
 
-        <RiskOverView projectName={elem.Tables_in_myproject} key={index}  />
+        <RiskOverView projectName={elem.Tables_in_myproject} key={index} />
       )
     }
 
-   
+
     return (
       <div>
-       
+
         <CreateTable />
         {read}
 

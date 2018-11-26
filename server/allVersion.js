@@ -25,7 +25,7 @@ router.get("/", (req, res) => {
 
     console.log("version", req.params.projectName);
     console.log("versionserver", req.body);
-    console.log("allVersion");
+    console.log("2em");
 
     const projectName = req.params.projectName
 
@@ -37,21 +37,14 @@ router.get("/", (req, res) => {
 
     connection.query(mysqlll, (err, result, files, rows) => {
         if (err) {
-            console.log('error query version ' + err.message);
+            console.log('error query ' + err.message);
         } else {
             // if (typeof result !== 'undefined' && result.length > 0) {
-                console.log("succesVersion :", result)
+                console.log("succesTotal ", result)
                 res.send(result)
             // }
         }
     })
-
-    
-})
-        // connection.end(function(err) {
-        //     if (err) {
-        //       return console.log('error:' + err.message);
-        //     }
-        //     console.log('Close the database connection.');
-        //   });
+}
+)
 module.exports = router;

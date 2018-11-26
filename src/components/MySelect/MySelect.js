@@ -13,18 +13,12 @@ class MySelect extends Component{
 
         myB=<button onClick={this.props.removeRisk.bind(this,this.props.riskName)}> x </button>
       }
-
       return(
-
-        
 
    <div className="Risk"> {<h1 name ="riskName "> {this.props.riskName} </h1>}
           
    <br/>
         
-
-
-          
 
           <select name = "probability"  onChange={this.props.addDataToState.bind(this,this.props.riskName)} value={this.props.probability} >
           
@@ -56,23 +50,12 @@ class MySelect extends Component{
           <textarea type="text" placeholder="enter risk reasons" className="input"  name = "reason"  onChange = {this.props.addDataToState.bind(this,this.props.riskName)} value = {this.props.reason} />
 
           {myB}
-          
-          
+  
           <br/><br/><br/>
           
-
-          
           </div>
-
-        
-        
           )
-       
-
+      
     }
 }
-
-
-
-
 export default MySelect;

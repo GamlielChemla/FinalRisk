@@ -24,11 +24,11 @@ router.post('/', (req, res) => {
   res.header('Access-Control-Max-Age', 86400)
   res.header('Access-Control-Allow-Headers', '*');
 
+  console.log("reqqqqqqqqqq", req.body)
 
-  console.log("alldb",req.body.week);
+
+
   let arr = []
-
-
   req.body.data.forEach(element => {
     arr.push({ ["probability" + element.riskName]: element.probability })
     arr.push({ ["concequence" + element.riskName]: element.concequence })
@@ -36,6 +36,9 @@ router.post('/', (req, res) => {
     arr.push({ ["reason" + element.riskName]: element.reason })
 
   });
+
+  console.log("arrrrrrrr",arr);
+  
 
   const getKeysAndVals = (arr) => {
     arrKeys = []
@@ -55,39 +58,58 @@ router.post('/', (req, res) => {
     return [arrKeys, arrVals]
 
   }
-
+  
+  
   let sqlKeys = getKeysAndVals(arr)[0]
-
+  
   let sqlValues = getKeysAndVals(arr)[1]
 
+  console.log("keeeeeeeeyy",sqlKeys);
+  // console.log("keeeeeeeeyy",sqlKeys);
+  
+  
   const avreg = () => {
     let risksLen = req.body.data.length
-
+    
     let myOriginArray = req.body.data
-
+    
     let sum = 0
-
+    
     for (let i of myOriginArray) {
-
+      
       let probability = parseInt(i.probability)
-
+      
       let concequence = parseInt(i.concequence)
-
+      
       sum += (probability * concequence) / risksLen
-
+      
     }
     return Math.ceil(sum);
   }
 
+
+
+  
   let total = avreg()
+  
 
   sqlKeys.push("total")
-
-  sqlValues.push(total)
-
+  
+  sqlValues.push(`'${total}'`)
+  
+  sqlKeys.push("week")
+  
+  
+  
+  sqlValues.push(`'${req.body.week}'`)
+  
+  
   sqlKeys = sqlKeys.join(",")
-
+  
   sqlValues = sqlValues.join(",")
+  
+  // console.log("key",sqlKeys);
+  console.log("value",sqlValues);
 
   const projectName = req.body.projectName
 
@@ -97,21 +119,16 @@ router.post('/', (req, res) => {
     return sql
   }
   const mysql = insertInDb(projectName, sqlKeys, sqlValues)
-  // console.log("mysql", mysql);
+  console.log("mysql", mysql);
 
   connection.query(mysql, (err, result, files, rows) => {
     if (err) {
       console.log('error query  ' + err.message);
     } else {
-      console.log("succes: ", result)
+      console.log("succes ", result)
 
     }
   })
+  // connection.end()
 })
-    // connection.end(function(err) {
-    //   if (err) {
-    //     return console.log('error insert:' + err.message);
-    //   }
-    //   console.log('Close the database connection.');
-    // });
 module.exports = router;

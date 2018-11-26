@@ -5,17 +5,20 @@ import axios from 'axios';
 
 
 class CreateTable extends Component {
- 
+
   state = {
     sendProject: ""
+  }
+  press = (e) =>{
+if(e.key ==='Enter'){
+  this.sendproject()
+}
   }
   
   sendproject = () => {
     console.log(this.state.sendProject);
 
-    // this.setState({sendProject:sendproject})
     document.location.reload()
-    
     axios.post("/createDB", this.state)
       .then(response =>
 
@@ -25,21 +28,14 @@ class CreateTable extends Component {
         console.log("err", err.message);
 
       })
-      
-  }
-  pressed = (e)=>{
-    if(e.key === 'Enter'){
-      this.sendproject()
-      
-    }
   }
   render() {
     return (
       <div className="first">
        
 
-        <input type="text"  placeholder="enter your project" onKeyPress={this.pressed}onChange={(event) => this.setState({ sendProject: event.target.value })} />
-        <button type="submit" onKeyPress={this.pressed}  onClick={this.sendproject}> send</button>
+        <input type="text" onKeyPress={this.press}placeholder="enter your project" onChange={(event) => this.setState({ sendProject: event.target.value })} />
+        <button type="submit"  onClick={this.sendproject}> send</button>
 
       </div>
     )

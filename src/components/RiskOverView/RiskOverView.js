@@ -16,7 +16,6 @@ class RiskOverView extends Component {
     console.log("hahahazzzz");
     console.log(this.props.projectName);
 
-
     let projectName = this.props.projectName
     console.log(projectName);
 
@@ -35,7 +34,6 @@ class RiskOverView extends Component {
 
         console.log("ttott", this.state.total);
       }
-
       )
   }
 
@@ -46,14 +44,6 @@ class RiskOverView extends Component {
       axios.delete(`/del/${this.props.projectName}`)
       document.location.reload()
     }
-  }
-
-  pressed = (e) => {
-    if (e.key === 'Enter') {
-      this.deleteTable()
-
-    }
-
   }
 
   render() {
@@ -72,19 +62,14 @@ class RiskOverView extends Component {
 
           </Link>
           <br />
-          <button className="btndelete" onKeyPress={this.pressed} onClick={this.deleteTable}>delete project</button>
-
-          {/* <button className="totalbtn" onClick={this.totalclick}>tottalclik</button> */}
+          <button className="btndelete" onClick={this.deleteTable}>delete project</button>
 
           <div className="total" >
             <div >Total Risk</div>
 
-            <div contentEditable="true">{this.state.total}</div>
+            <div >{this.state.total}</div>
 
           </div>
-
-          {/* <button className="totalbtn" onClick={this.totalclick}>tottalclik</button>
-         */}
         </div>
 
       </div>

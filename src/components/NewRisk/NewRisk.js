@@ -15,4 +15,3 @@ const NewRisk = (props) =>
     </form>
 
 export default NewRisk;
-
