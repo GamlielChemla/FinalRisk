@@ -54,6 +54,8 @@ class Project extends Component {
       .then(res => {
         let data = res.data[0];
 
+        console.log("dataaaaaaaaaaa",data);
+        
         for (const key in data) {
           if (data[key]) {
             console.log(key);
@@ -123,6 +125,8 @@ class Project extends Component {
 
                 newObject[mykey] = data[key];
 
+                console.log("Customer",newObject);
+
                 copyOfRisks[3] = newObject;
 
                 console.log(newObject);
@@ -140,6 +144,49 @@ class Project extends Component {
               this.setState({week:data[key]})
               this.setState({currentWeek:data[key]})
               break;
+
+            case key.toLowerCase().includes("other1"):
+
+            
+              mykey = key.replace("Other1", "").toLowerCase();
+
+              copyOfRisks = [...this.state.risks];
+              console.log('copyOfRisks[4]', copyOfRisks[4]);
+              
+              newObject = {};
+
+              for (let k in copyOfRisks[4]) newObject[k] = copyOfRisks[4][k];
+              console.log("other1111111111",newObject);
+              
+
+              newObject[mykey] = data[key];
+
+              copyOfRisks[4] = newObject;
+
+              console.log(newObject);
+
+              this.setState({ risks: copyOfRisks });
+
+              break;
+
+              case key.toLowerCase().includes("other2"):
+              mykey = key.replace("Other2", "").toLowerCase();
+
+              copyOfRisks = [...this.state.risks];
+              newObject = {};
+
+              for (let k in copyOfRisks[5]) newObject[k] = copyOfRisks[5][k];
+
+              newObject[mykey] = data[key];
+
+              copyOfRisks[5] = newObject;
+
+              console.log(newObject);
+
+              this.setState({ risks: copyOfRisks });
+
+              break;
+
 
 
               default :

@@ -5,7 +5,7 @@ let router = express.Router();
 let connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'rina3004',
+  password: 'aaaa',
   database: "myproject"
 
 });
@@ -40,6 +40,5 @@ router.delete("/:projectName", (req, res) => {
 
     }
   })
-  // connection.end()
 })
 module.exports = router;

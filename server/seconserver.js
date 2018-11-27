@@ -5,7 +5,7 @@ let router = express.Router();
 let connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'rina3004',
+  password: 'aaaa',
   database: "myproject"
 
 });
@@ -121,6 +121,7 @@ router.post('/', (req, res) => {
   const mysql = insertInDb(projectName, sqlKeys, sqlValues)
   console.log("mysql", mysql);
 
+
   connection.query(mysql, (err, result, files, rows) => {
     if (err) {
       console.log('error query  ' + err.message);
@@ -129,6 +130,5 @@ router.post('/', (req, res) => {
 
     }
   })
-  // connection.end()
 })
 module.exports = router;

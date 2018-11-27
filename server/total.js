@@ -5,7 +5,7 @@ let mysql = require('mysql');
 let connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'rina3004',
+    password: 'aaaa',
     database: "myproject"
 });
 connection.connect(function (err) {
@@ -44,7 +44,6 @@ router.get("/total/:projectName", (req, res) => {
             }
         }
     })
-    // connection.end()
 }
 )
 module.exports = router;
