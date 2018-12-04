@@ -12,30 +12,30 @@ class RiskOverView extends Component {
     total: 0
   }
 
-  componentDidMount() {
-    console.log("hahahazzzz");
-    console.log(this.props.projectName);
+  // componentDidMount() {
+  //   console.log("hahahazzzz");
+  //   console.log(this.props.projectName);
 
-    let projectName = this.props.projectName
-    console.log(projectName);
+  //   let projectName = this.props.projectName
+  //   console.log(projectName);
 
-    axios.get('/total/' + projectName)
-      .then(response => {
-
-
-        console.log("myreponce", response.data)
-
-        console.log(Object.values(response.data[0])[0]);
-
-        const total = Object.values(response.data[0])[0]
-
-        this.setState({ total: total })
+  //   axios.get('/total/' + projectName)
+  //     .then(response => {
 
 
-        console.log("ttott", this.state.total);
-      }
-      )
-  }
+  //       console.log("myreponce", response.data)
+
+  //       console.log(Object.values(response.data[0])[0]);
+
+  //       const total = Object.values(response.data[0])[0]
+
+  //       this.setState({ total: total })
+
+
+  //       console.log("ttott", this.state.total);
+  //     }
+  //     )
+  // }
 
   deleteTable = () => {
     let confirms = window.confirm(`are you sure you want to delete "${this.props.projectName}"`)
@@ -56,7 +56,7 @@ class RiskOverView extends Component {
           {this.props.projectName}</div>
         <div className="views">
 
-          <Link to={"/Project/" + this.props.projectName /**  + '/'+this.props.weeksBack*/}>
+          <Link to={"/Project/" + this.props.projectName }>
 
             <button className="btnEdit">edit</button>
 

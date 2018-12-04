@@ -5,7 +5,7 @@ let router = express.Router();
 let connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'rina3004',
+  password: 'aaaa',
   database: "myproject"
 
 });
@@ -47,13 +47,7 @@ router.get("/getCurrentWeek/:projectName", (req, res) => {
     } else {
       console.log("succes ", result)
 
-        // previousWeek =Object.values(result[0])[0]
-        
-        // let newVersion = previousWeek+1
-        // console.log("newVersion",newVersion);
-        
-        // console.log("pp",Object.values(previousWeek)[0])
-        
+     
         res.send(result);
     }
   })

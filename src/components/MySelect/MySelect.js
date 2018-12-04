@@ -20,11 +20,14 @@ class MySelect extends Component{
    <br/>
         
 
-          <select name = "probability"  onChange={this.props.addDataToState.bind(this,this.props.riskName)} value={this.props.probability} >
+          <select name = "probability"  onChange={(e) => {this.props.addDataToState(e); this.props.setTotalRisk()}}
+          
+          value={this.props.probability} >
           
           <option value="0" >Select your probability</option>
             
             
+            <option value="0">0</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -33,21 +36,22 @@ class MySelect extends Component{
 
           </select>
 
-          <select name = "concequence"  onChange ={this.props.addDataToState.bind(this,this.props.riskName)} value={this.props.concequence} >
-            <option value="0"  >Select your concequence</option>
-            
-           
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-
-          </select>
-
-          <textarea type="text" placeholder="enter risk mitigation" className="input" name = "mitigation" onChange= {this.props.addDataToState.bind(this,this.props.riskName)} value={this.props.mitigation} />
+          <select name = "concequence"  onChange = {(e) => {this.props.addDataToState(e); this.props.setTotalRisk()}}
           
-          <textarea type="text" placeholder="enter risk reasons" className="input"  name = "reason"  onChange = {this.props.addDataToState.bind(this,this.props.riskName)} value = {this.props.reason} />
+          value={this.props.concequence} >
+            <option value="0"  >Select your concequence</option>
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+
+          </select>
+
+          <textarea type="text" placeholder="enter risk mitigation" className="input" name = "mitigation" onChange= {this.props.addDataToState} value={this.props.mitigation} />
+          
+          <textarea type="text" placeholder="enter risk reasons" className="input"  name = "reason"  onChange = {this.props.addDataToState} value = {this.props.reason} />
 
           {myB}
   

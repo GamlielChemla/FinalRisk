@@ -5,7 +5,7 @@ let router = express.Router();
 let connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'rina3004',
+  password: 'aaaa',
   database: "myproject"
 
 });
@@ -17,19 +17,34 @@ connection.connect(function (err) {
   }
 });
 
-router.post('/', (req, res) => {
+
+const insertInDb = (project, keysAndValues) => {
+  let sql = null
+  
+    
+    let sqlKeys =  keysAndValues[0]      
+    
+    let sqlValues = keysAndValues[1]
+    
+
+   sql= `INSERT INTO ${project} (${sqlKeys}) VALUES(${sqlValues} )`
+
+  
+  return sql
+}
+
+router.post('/', async (req, res) => {
 
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header('Access-Control-Max-Age', 86400)
   res.header('Access-Control-Allow-Headers', '*');
 
-  console.log("reqqqqqqqqqq", req.body)
 
 
 
   let arr = []
-  req.body.data.forEach(element => {
+  await req.body.data.forEach(element => {
     arr.push({ ["probability" + element.riskName]: element.probability })
     arr.push({ ["concequence" + element.riskName]: element.concequence })
     arr.push({ ["mitigation" + element.riskName]: element.mitigation })
@@ -37,88 +52,90 @@ router.post('/', (req, res) => {
 
   });
 
-  console.log("arrrrrrrr",arr);
-  
+  console.log("arrrrrrrr",req.body);
+ 
 
-  const getKeysAndVals = (arr) => {
+
+  const getKeysAndVals =  async (arr) => {
     arrKeys = []
     arrVals = []
 
-    arr.forEach(elem => {
-      let myKey = Object.keys(elem)[0]
-      // console.log("mykey", myKey);
+      arr.forEach( (item)  =>{
+        let myKey=Object.keys(item)[0]
+      arrKeys.push(myKey)
+      arrVals.push(`'${item[myKey]}'`)
 
-      if (elem[myKey].length > 0 || elem[myKey] > 0) {
-        arrKeys.push(myKey)
+  })
 
-        arrVals.push(`'${(Object.values(elem)[0])}'`)
-      }
-    })
-
-    return [arrKeys, arrVals]
-
-  }
   
   
-  let sqlKeys = getKeysAndVals(arr)[0]
-  
-  let sqlValues = getKeysAndVals(arr)[1]
-
-  console.log("keeeeeeeeyy",sqlKeys);
-  // console.log("keeeeeeeeyy",sqlKeys);
-  
-  
-  const avreg = () => {
-    let risksLen = req.body.data.length
+      arrKeys.push("totalRisk")
+      
+      arrVals.push(`'${req.body.totalRisk}'`)
     
-    let myOriginArray = req.body.data
     
-    let sum = 0
+    arrKeys.push("week")
     
-    for (let i of myOriginArray) {
-      
-      let probability = parseInt(i.probability)
-      
-      let concequence = parseInt(i.concequence)
-      
-      sum += (probability * concequence) / risksLen
-      
+    arrVals.push(`'${req.body.week}'`)
+    
+
+
+    if (req.body.risksLength >= 5 ){
+      arrKeys.push("prevName1")
+    
+    arrVals.push(`'${req.body.data[4].prevName1}'`)
+
+    console.log("req.body.data[4].prevName" ,req.body.data[4]);
+    
+    
+
     }
-    return Math.ceil(sum);
+
+    console.log('arrsafa',arrVals);
+
+    
+    if (req.body.risksLength === 6 ){
+    arrKeys.push("prevName2")
+    
+    arrVals.push(`'${req.body.data[5].prevName2}'`)
   }
+  
+  arrKeys.push("risksLength")
+  arrVals.push(`'${req.body.risksLength}'`)
+  
+  arrKeys.push("lastWeek")
+  arrVals.push(`'${req.body.lastWeek}'`)
+
+  
 
 
 
-  
-  let total = avreg()
+
+
+    arrKeys = arrKeys.join(",")
+    
+    arrVals = arrVals.join(",")
+
+    return  [arrKeys, arrVals]
+
+  }
   
 
-  sqlKeys.push("total")
-  
-  sqlValues.push(`'${total}'`)
-  
-  sqlKeys.push("week")
-  
-  
-  
-  sqlValues.push(`'${req.body.week}'`)
-  
-  
-  sqlKeys = sqlKeys.join(",")
-  
-  sqlValues = sqlValues.join(",")
-  
-  // console.log("key",sqlKeys);
-  console.log("value",sqlValues);
 
+
+  const keysAndValues = await getKeysAndVals(arr)
+  
+
+  console.log("kkk",keysAndValues);
+  
+  
   const projectName = req.body.projectName
+  
+  
+  
+ 
+  const mysql = insertInDb(projectName,keysAndValues)
 
-  const insertInDb = (project, sqlKeys, sqlValues) => {
-
-    const sql = `INSERT INTO ${project} (${sqlKeys}) VALUES(${sqlValues} )`
-    return sql
-  }
-  const mysql = insertInDb(projectName, sqlKeys, sqlValues)
   console.log("mysql", mysql);
 
   connection.query(mysql, (err, result, files, rows) => {
@@ -129,6 +146,5 @@ router.post('/', (req, res) => {
 
     }
   })
-  // connection.end()
 })
 module.exports = router;

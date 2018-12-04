@@ -1,14 +1,30 @@
-import React, { Component } from "react";
+import React from "react";
+
+
 import "./Project.css";
+
+
 import { Link } from "react-router-dom";
+
 
 import axios from "axios";
 
+
 import MySelect from "../../components/MySelect/MySelect";
+
 
 import NewRisk from "../../components/NewRisk/NewRisk";
 
-class Project extends Component {
+
+import {Funcs} from "./AllFuncs"
+
+import DatePicker from "react-datepicker";
+
+
+
+class Project extends Funcs {
+
+
   state = {
     risks: [
       {
@@ -38,15 +54,18 @@ class Project extends Component {
         concequence: 0,
         mitigation: "",
         reason: ""
-      }
-    ],
+      }],
+    risksLength :4,
     data: [],
     projectName: this.props.match.params.projectName,
-    totalRisk: null,
+    totalRisk: 0,
     week: 1,
-    currentWeek:1,
-    weekback:0
-  };
+    lastWeek:1,
+    startDate: new Date(),
+    startDay: null,
+    startMonth: null,
+    startYear: null
+    };
 
   componentDidMount() {
     axios
@@ -54,100 +73,9 @@ class Project extends Component {
       .then(res => {
         let data = res.data[0];
 
-        for (const key in data) {
-          if (data[key]) {
-            console.log(key);
-
-            switch (true) {
-              case key.toLowerCase().includes("test"):
-                let mykey = key.replace("Test", "").toLowerCase();
-
-                let copyOfRisks = [...this.state.risks];
-                let newObject = {};
-
-                for (let k in copyOfRisks[0]) newObject[k] = copyOfRisks[0][k];
-
-                newObject[mykey] = data[key];
-
-                copyOfRisks[0] = newObject;
-
-                console.log(newObject);
-
-                this.setState({ risks: copyOfRisks });
-
-                break;
-
-              case key.toLowerCase().includes("budget"):
-                mykey = key.replace("Budget", "").toLowerCase();
-
-                copyOfRisks = [...this.state.risks];
-                newObject = {};
-
-                for (let k in copyOfRisks[1]) newObject[k] = copyOfRisks[1][k];
-
-                newObject[mykey] = data[key];
-
-                copyOfRisks[1] = newObject;
-
-                console.log(newObject);
-
-                this.setState({ risks: copyOfRisks });
-
-                break;
-
-              case key.toLowerCase().includes("delay"):
-                mykey = key.replace("Delay", "").toLowerCase();
-
-                copyOfRisks = [...this.state.risks];
-                newObject = {};
-
-                for (let k in copyOfRisks[2]) newObject[k] = copyOfRisks[2][k];
-
-                newObject[mykey] = data[key];
-
-                copyOfRisks[2] = newObject;
-
-                console.log(newObject);
-
-                this.setState({ risks: copyOfRisks });
-
-                break;
-
-              case key.toLowerCase().includes("customer"):
-                mykey = key.replace("Customer", "").toLowerCase();
-
-                copyOfRisks = [...this.state.risks];
-                newObject = {};
-
-                for (let k in copyOfRisks[3]) newObject[k] = copyOfRisks[3][k];
-
-                newObject[mykey] = data[key];
-
-                copyOfRisks[3] = newObject;
-
-                console.log(newObject);
-
-                this.setState({ risks: copyOfRisks });
-
-                break;
-
-              case key.toLowerCase().includes("total"):
-                this.setState({ totalRisk: data[key] });
-
-                break;
-
-            case key.toLowerCase().includes("week"):
-              this.setState({week:data[key]})
-              this.setState({currentWeek:data[key]})
-              break;
-
-
-              default :
-              console.log("Not relevant");
-              
-            }
-          }
-        }
+        
+        this.upDataMyDash(data)
+       
       });
   }
 
@@ -161,9 +89,11 @@ class Project extends Component {
       return all + item;
     });
     console.log("my sum", sum);
+    
 
     this.setState({ totalRisk: Math.ceil(sum) });
   };
+
   addNewRisk = e => {
     e.preventDefault();
 
@@ -171,10 +101,10 @@ class Project extends Component {
 
     let check = true;
 
-    let newState = this.state.risks.slice();
+    let newState = [...this.state.risks];
 
     for (let i = 0; i < newState.length; i++) {
-      if (newState[i].riskName === newRisk) {
+      if (newState[i].riskName === newRisk || newRisk === "" ) {
         check = false;
       }
     }
@@ -192,15 +122,12 @@ class Project extends Component {
       ];
 
       this.setState({ risks: newState });
+      this.setState({risksLength:this.state.risksLength+1})
     }
   };
 
   removeRisk = name => {
-    if (
-      name !== "customer" &&
-      name !== "budget" &&
-      name !== "test" &&
-      name !== "delay"
+    if ((name !== "customer" && name !== "budget" && name !== "test" && name !== "delay") || this.state.lastWeek ===this.state.week
     ) {
       let newState = this.state.risks.slice();
 
@@ -215,10 +142,13 @@ class Project extends Component {
       newState.splice(myIndex, 1);
 
       this.setState({ risks: newState });
+
+      this.setState({risksLength:this.state.risksLength-1})
+
     }
   };
 
-  addDataToState = (name, e) => {
+  addDataToState = (e,name) => {
     let myKey = e.target.name;
 
     let newState = this.state.risks.slice();
@@ -235,8 +165,7 @@ class Project extends Component {
   postHandle = async () => {
     let newData = [];
     let arr = [...this.state.risks];
-    await arr.map(elem => {
-      
+    await arr.map( async (elem) => {
       newData.push({
         riskName: elem.riskName,
         probability: elem.probability,
@@ -245,23 +174,40 @@ class Project extends Component {
         reason: elem.reason
       });
       if (newData.length > 4) {
-        newData[4]["riskName"] = "Other1";
+        
+        let newObject =  JSON.parse(JSON.stringify(newData[4]));
+        newObject["prevName1"] = await newObject.riskName;
+        newObject["riskName"] = "Other1";
+        newData[4] = newObject;
       }
+      
       if (newData.length > 5) {
-        newData[5]["riskName"] = "Other2";
+        let newObject = JSON.parse(JSON.stringify(newData[5]));
+        newObject["prevName2"] = await newObject.riskName;
+        newObject["riskName"] = "Other2";
+        newData[5] = newObject;
       }
-      console.log("newData", newData);
-    });
 
-    this.setState({ data: newData });
-    console.log("data", this.state.data);
+      console.log("newData", newData);
+      this.setState({data:newData})
+    });
+    console.log("dffffff",this.state.data);
+    
+
+    
+    let toSend = { data: this.state.data, projectName: this.state.projectName,week: this.state.week,risksLength:this.state.risksLength, totalRisk : this.state.totalRisk, lastWeek : this.state.lastWeek  }
+    
+    
+    if (this.state.totalRisk >0 ){
+
+      toSend['totalRisk'] = this.state.totalRisk;
+
+    }    
+
+    
 
     axios
-      .post("/second", {
-        data: this.state.data,
-        projectName: this.state.projectName,
-        week: this.state.week
-      })
+      .post("/second", toSend)
       .then(
         response => console.log("response", response)
         // console.log("response", response)
@@ -269,242 +215,61 @@ class Project extends Component {
       .catch(err => {
         console.log("erreur", err.message);
       });
-      
-  }
-  ;
-  
-  previousWeekFunc = async() =>{
-      // let newWeek= this.state.currentWeek ;
-      // console.log(newWeek);
-      
-     await this.setState({currentWeek:this.state.currentWeek-1})
+  };
 
-     await   axios.get('/getLastWeek/'+this.props.match.params.projectName+"/"+this.state.currentWeek).then(res =>{
+  previousWeekFunc = async () => {
+    
 
+    await this.setState({ week: this.state.week - 1 });
+
+    await axios
+      .get(
+        "/getLastWeek/" +
+          this.props.match.params.projectName +
+          "/" +
+          this.state.week
+      )
+      .then(res => {
         let data = res.data[0];
 
+      this.nextPreviousWeekFuncFromAll(data)
+      });
+  };
+
+  nextWeekFunc = async () => {
+    await this.setState({ week: this.state.week + 1 });
+
+    await axios
+      .get(
+        "/getNextWeek/" +
+          this.props.match.params.projectName +
+          "/" +
+          this.state.week
+      )
+      .then(res => {
+        let data = res.data[0];
+
+        this.nextPreviousWeekFuncFromAll ( data)
+        
+      });
+  };
+
+  newVersion = async () => {
+
+    this.setState({ week: this.state.week + 1 });
+
+    this.setState({ lastWeek: this.state.week+ 1 });
+
+  };
+
+  handleChange = (date) => {
+    this.setState({
+      startDate: date,
+      startDay: date.getDate(),
+      startMonth: date.getMonth() + 1,
+      startYear: date.getFullYear()
+    })}
 
-      for (const key in data) {
-        if (data[key]) {
-          console.log(key);
-
-          switch (true) {
-            case key.toLowerCase().includes("test"):
-              let mykey = key.replace("Test", "").toLowerCase();
-
-              let copyOfRisks = [...this.state.risks];
-              let newObject = {};
-
-              for (let k in copyOfRisks[0]) newObject[k] = copyOfRisks[0][k];
-
-              newObject[mykey] = data[key];
-
-              copyOfRisks[0] = newObject;
-
-              console.log(newObject);
-
-              this.setState({ risks: copyOfRisks });
-
-              break;
-
-            case key.toLowerCase().includes("budget"):
-              mykey = key.replace("Budget", "").toLowerCase();
-
-              copyOfRisks = [...this.state.risks];
-              newObject = {};
-
-              for (let k in copyOfRisks[1]) newObject[k] = copyOfRisks[1][k];
-
-              newObject[mykey] = data[key];
-
-              copyOfRisks[1] = newObject;
-
-              console.log(newObject);
-
-              this.setState({ risks: copyOfRisks });
-
-              break;
-
-            case key.toLowerCase().includes("delay"):
-              mykey = key.replace("Delay", "").toLowerCase();
-
-              copyOfRisks = [...this.state.risks];
-              newObject = {};
-
-              for (let k in copyOfRisks[2]) newObject[k] = copyOfRisks[2][k];
-
-              newObject[mykey] = data[key];
-
-              copyOfRisks[2] = newObject;
-
-              console.log(newObject);
-
-              this.setState({ risks: copyOfRisks });
-
-              break;
-
-            case key.toLowerCase().includes("customer"):
-              mykey = key.replace("Customer", "").toLowerCase();
-
-              copyOfRisks = [...this.state.risks];
-              newObject = {};
-
-              for (let k in copyOfRisks[3]) newObject[k] = copyOfRisks[3][k];
-
-              newObject[mykey] = data[key];
-
-              copyOfRisks[3] = newObject;
-
-              console.log(newObject);
-
-              this.setState({ risks: copyOfRisks });
-
-              break;
-
-            case key.toLowerCase().includes("total"):
-              this.setState({ totalRisk: data[key] });
-
-              break;
-
-          case key.toLowerCase().includes("week"):
-            this.setState({currentWeek:data[key]})
-            break;
-
-
-            default :
-            console.log("Not relevant");
-            
-          }
-        }
-      }
-
-
-
-
-
-       
-     })
-      
-  }
-
-  nextWeekFunc = async () =>{
-    
-    await this.setState({currentWeek:this.state.currentWeek+1})
-
-    await   axios.get('/getNextWeek/'+this.props.match.params.projectName+"/"+this.state.currentWeek).then(res =>{
-
-      let data = res.data[0];
-
-
-    for (const key in data) {
-      if (data[key]) {
-        console.log(key);
-
-        switch (true) {
-          case key.toLowerCase().includes("test"):
-            let mykey = key.replace("Test", "").toLowerCase();
-
-            let copyOfRisks = [...this.state.risks];
-            let newObject = {};
-
-            for (let k in copyOfRisks[0]) newObject[k] = copyOfRisks[0][k];
-
-            newObject[mykey] = data[key];
-
-            copyOfRisks[0] = newObject;
-
-            console.log(newObject);
-
-            this.setState({ risks: copyOfRisks });
-
-            break;
-
-          case key.toLowerCase().includes("budget"):
-            mykey = key.replace("Budget", "").toLowerCase();
-
-            copyOfRisks = [...this.state.risks];
-            newObject = {};
-
-            for (let k in copyOfRisks[1]) newObject[k] = copyOfRisks[1][k];
-
-            newObject[mykey] = data[key];
-
-            copyOfRisks[1] = newObject;
-
-            console.log(newObject);
-
-            this.setState({ risks: copyOfRisks });
-
-            break;
-
-          case key.toLowerCase().includes("delay"):
-            mykey = key.replace("Delay", "").toLowerCase();
-
-            copyOfRisks = [...this.state.risks];
-            newObject = {};
-
-            for (let k in copyOfRisks[2]) newObject[k] = copyOfRisks[2][k];
-
-            newObject[mykey] = data[key];
-
-            copyOfRisks[2] = newObject;
-
-            console.log(newObject);
-
-            this.setState({ risks: copyOfRisks });
-
-            break;
-
-          case key.toLowerCase().includes("customer"):
-            mykey = key.replace("Customer", "").toLowerCase();
-
-            copyOfRisks = [...this.state.risks];
-            newObject = {};
-
-            for (let k in copyOfRisks[3]) newObject[k] = copyOfRisks[3][k];
-
-            newObject[mykey] = data[key];
-
-            copyOfRisks[3] = newObject;
-
-            console.log(newObject);
-
-            this.setState({ risks: copyOfRisks });
-
-            break;
-
-          case key.toLowerCase().includes("total"):
-            this.setState({ totalRisk: data[key] });
-
-            break;
-
-        case key.toLowerCase().includes("week"):
-          this.setState({currentWeek:data[key]})
-          break;
-
-
-          default :
-          console.log("Not relevant");
-          
-        }
-      }
-    }
-
-
-
-
-
-     
-   })     
-}
-  
-  newVersion = async() =>{
-    const newVersionWeek = this.state.week+1
-    this.setState({week:newVersionWeek})
-    this.setState({currentWeek:newVersionWeek})
-     this.postHandle()
-
-  }
   render() {
     const mySelectsList = this.state.risks.map((item, index) => (
       <MySelect
@@ -514,8 +279,9 @@ class Project extends Component {
         mitigation={item.mitigation}
         reason={item.reason}
         removeRisk={this.removeRisk}
-        addDataToState={this.addDataToState}
+        addDataToState={(e) => this.addDataToState(e, item.riskName)}
         key={index + "" + item.riskName}
+        setTotalRisk ={this.setTotalRisk}
       />
     ));
 
@@ -524,59 +290,61 @@ class Project extends Component {
       showAddNewRisk = <NewRisk addNewRisk={this.addNewRisk} />;
     }
 
-    
-
     let nextbtn = null;
 
-    if (this.state.currentWeek < this.state.week) {
-      nextbtn = (
-        <button className="next"  onClick={this.nextWeekFunc}>
-          next
-        </button>
-      );
-
-    } else {
+    if ( this.state.week ===this.state.lastWeek) {
+    
       nextbtn = (
         <button className="version" onClick={this.newVersion}>
           new version
         </button>
       );
+    } else {
+     
+      nextbtn = (
+        <button className="next" onClick={this.nextWeekFunc}>
+          next
+        </button>
+      );
+
     }
 
-    let previous = null
+    let previous = null;
 
-    if (this.state.currentWeek > 1) {
-      previous= <button className="previous" onClick={this.previousWeekFunc}>previous</button>
+    if (this.state.week > 1) {
+      previous = (
+        <button className="previous" onClick={this.previousWeekFunc}>
+          previous
+        </button>
+      );
+    }
+
+    let saveBtn = null;
+
+
+    if ( this.state.lastWeek ===this.state.week || this.state.lastWeek === 1) {
+
+      saveBtn = (
       
-    }
-
-    let saveBtn=null
-    if (this.state.week === this.state.currentWeek){
-
-      saveBtn =   <button
+      <button
           className="save"
           type="submit"
-          onClick={() => {
-            this.postHandle();
-            this.setTotalRisk();
-          }}
+          onClick={this.postHandle}
         >
           save
         </button>
+      );
     }
-    let totalRisk =null;
-    if(this.state.totalRisk !== null){
-      totalRisk = <div> Total Risk : {this.state.totalRisk} </div>
-
-      
+    let totalRisk = null;
+    if (this.state.totalRisk !== null && this.state.totalRisk >0 )  {
+      totalRisk = <div> Total Risk : {this.state.totalRisk} </div>;
     }
     return (
       <div className="App">
-        <div>10/12/18</div>
+       
         <div> project name : {this.state.projectName}</div>
         {totalRisk}
-        <div> currentWeek : {this.state.currentWeek} </div>
-        
+        <div> currentWeek : {this.state.week} </div>
 
         {previous}
         {nextbtn}
@@ -584,7 +352,11 @@ class Project extends Component {
         {showAddNewRisk}
         {saveBtn}
 
-      
+         <DatePicker
+          selected={this.state.startDate}
+
+          onChange={this.handleChange}
+        />
 
         <Link to={"/"}>
           <button className="Done" type="submit">
