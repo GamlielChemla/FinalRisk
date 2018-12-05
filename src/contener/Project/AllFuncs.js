@@ -13,6 +13,7 @@ export class Funcs extends Component {
         risksLength: data.risksLength,
         lastWeek:data.lastWeek
 
+
       })
 
 
@@ -175,7 +176,9 @@ export class Funcs extends Component {
       console.log('sasasa', data);
 
       this.setState({risksLength: data.risksLength })
-
+    
+      this.setState({myDate: data.myDate })
+      
       this.setRisks(data)
 
       for (let key in data) {

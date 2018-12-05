@@ -90,7 +90,6 @@ router.post('/', async (req, res) => {
     }
 
     console.log('arrsafa',arrVals);
-
     
     if (req.body.risksLength === 6 ){
     arrKeys.push("prevName2")
@@ -108,12 +107,6 @@ router.post('/', async (req, res) => {
   let myDate = `'${req.body.myDate}'`
   arrVals.push(myDate)
 
-  
-
-
-
-
-
     arrKeys = arrKeys.join(",")
     
     arrVals = arrVals.join(",")
@@ -122,20 +115,12 @@ router.post('/', async (req, res) => {
 
   }
   
-
-
-
   const keysAndValues = await getKeysAndVals(arr)
   
-
   console.log("kkk",keysAndValues);
-  
   
   const projectName = req.body.projectName
   
-  
-  
- 
   const mysql = insertInDb(projectName,keysAndValues)
 
   console.log("mysql", mysql);
