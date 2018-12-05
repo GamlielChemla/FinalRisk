@@ -18,7 +18,6 @@ import NewRisk from "../../components/NewRisk/NewRisk";
 
 import {Funcs} from "./AllFuncs"
 
-import DatePicker from "react-datepicker";
 
 
 
@@ -61,13 +60,13 @@ class Project extends Funcs {
     totalRisk: 0,
     week: 1,
     lastWeek:1,
-    startDate: new Date(),
-    startDay: null,
-    startMonth: null,
-    startYear: null
+    myDate: 0,
+   
     };
 
   componentDidMount() {
+   this.dateHandler()
+   
     axios
       .get("/getCurrentWeek/" + this.props.match.params.projectName)
       .then(res => {
@@ -195,7 +194,7 @@ class Project extends Funcs {
     
 
     
-    let toSend = { data: this.state.data, projectName: this.state.projectName,week: this.state.week,risksLength:this.state.risksLength, totalRisk : this.state.totalRisk, lastWeek : this.state.lastWeek  }
+    let toSend = { data: this.state.data, projectName: this.state.projectName,week: this.state.week,risksLength:this.state.risksLength, totalRisk : this.state.totalRisk, lastWeek : this.state.lastWeek, myDate :this.state.myDate}
     
     
     if (this.state.totalRisk >0 ){
@@ -237,7 +236,10 @@ class Project extends Funcs {
   };
 
   nextWeekFunc = async () => {
+
+
     await this.setState({ week: this.state.week + 1 });
+
 
     await axios
       .get(
@@ -256,19 +258,24 @@ class Project extends Funcs {
 
   newVersion = async () => {
 
-    this.setState({ week: this.state.week + 1 });
+     this.setState({ week: this.state.week + 1 });
 
-    this.setState({ lastWeek: this.state.week+ 1 });
+     this.setState({ lastWeek: this.state.week+ 1 });
+
+     this.dateHandler()
+
 
   };
 
-  handleChange = (date) => {
-    this.setState({
-      startDate: date,
-      startDay: date.getDate(),
-      startMonth: date.getMonth() + 1,
-      startYear: date.getFullYear()
-    })}
+  dateHandler = () =>{
+    let d = new Date();
+
+    let date = `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`
+
+    this.setState({myDate:date})
+    
+  }
+ 
 
   render() {
     const mySelectsList = this.state.risks.map((item, index) => (
@@ -339,12 +346,15 @@ class Project extends Funcs {
     if (this.state.totalRisk !== null && this.state.totalRisk >0 )  {
       totalRisk = <div> Total Risk : {this.state.totalRisk} </div>;
     }
+
+  
     return (
       <div className="App">
        
         <div> project name : {this.state.projectName}</div>
-        {totalRisk}
+        <div> {this.state.myDate} </div>
         <div> currentWeek : {this.state.week} </div>
+        {totalRisk}
 
         {previous}
         {nextbtn}
@@ -352,11 +362,7 @@ class Project extends Funcs {
         {showAddNewRisk}
         {saveBtn}
 
-         <DatePicker
-          selected={this.state.startDate}
-
-          onChange={this.handleChange}
-        />
+ 
 
         <Link to={"/"}>
           <button className="Done" type="submit">

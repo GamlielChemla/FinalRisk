@@ -87,8 +87,6 @@ router.post('/', async (req, res) => {
 
     console.log("req.body.data[4].prevName" ,req.body.data[4]);
     
-    
-
     }
 
     console.log('arrsafa',arrVals);
@@ -105,6 +103,10 @@ router.post('/', async (req, res) => {
   
   arrKeys.push("lastWeek")
   arrVals.push(`'${req.body.lastWeek}'`)
+
+  arrKeys.push("myDate")
+  let myDate = `'${req.body.myDate}'`
+  arrVals.push(myDate)
 
   
 
