@@ -1,5 +1,6 @@
 import React from "react";
 
+
 const NewRisk = (props) =>
 
     <form onSubmit = {props.addNewRisk}>

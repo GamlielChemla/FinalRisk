@@ -155,7 +155,7 @@ export class Funcs extends Component {
                 week: data[key]
               });
         
-
+              break
             default:
               console.log('defualt');
               break

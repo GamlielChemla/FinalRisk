@@ -5,7 +5,7 @@ let router = express.Router();
 let connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'aaaa',
+  password: 'rina3004',
   database: "myproject"
 
 });
@@ -127,7 +127,7 @@ router.post('/', async (req, res) => {
 
   connection.query(mysql, (err, result, files, rows) => {
     if (err) {
-      console.log('error query  ' + err.message);
+      console.log('error query  second' + err.message);
     } else {
       console.log("succes ", result)
 

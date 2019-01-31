@@ -18,6 +18,7 @@ import NewRisk from "../../components/NewRisk/NewRisk";
 
 import {Funcs} from "./AllFuncs"
 
+import { Button,Jumbotron } from 'reactstrap';
 
 
 
@@ -68,7 +69,7 @@ class Project extends Funcs {
    this.dateHandler()
    
     axios
-      .get("/getCurrentWeek/" + this.props.match.params.projectName)
+      .get("http://10.2.3.104:4000/getCurrentWeek/" + this.props.match.params.projectName)
       .then(res => {
         let data = res.data[0];
 
@@ -89,7 +90,6 @@ class Project extends Funcs {
     });
     console.log("my sum", sum);
     
-
     this.setState({ totalRisk: Math.ceil(sum) });
   };
 
@@ -202,11 +202,8 @@ class Project extends Funcs {
       toSend['totalRisk'] = this.state.totalRisk;
 
     }    
-
-    
-
     axios
-      .post("/second", toSend)
+      .post("http://10.2.3.104:4000/second", toSend)
       .then(
         response => console.log("response", response)
         // console.log("response", response)
@@ -223,7 +220,7 @@ class Project extends Funcs {
 
     await axios
       .get(
-        "/getLastWeek/" +
+        "http://10.2.3.104:4000/getLastWeek/" +
           this.props.match.params.projectName +
           "/" +
           this.state.week
@@ -243,7 +240,7 @@ class Project extends Funcs {
 
     await axios
       .get(
-        "/getNextWeek/" +
+        "http://10.2.3.104:4000/getNextWeek/" +
           this.props.match.params.projectName +
           "/" +
           this.state.week
@@ -302,9 +299,9 @@ class Project extends Funcs {
     if ( this.state.week ===this.state.lastWeek) {
     
       nextbtn = (
-        <button className="version" onClick={this.newVersion}>
+        <Button color="success" size="sm" className="version" onClick={this.newVersion}>
           new version
-        </button>
+        </Button>
       );
     } else {
      
@@ -349,12 +346,29 @@ class Project extends Funcs {
 
   
     return (
+
+      
       <div className="App">
+
+<div>
+      <Jumbotron>
+        <h3 >project name : {this.state.projectName}</h3>
+        <h4> {this.state.myDate} </h4>
+        <h5> currentWeek : {this.state.week} </h5>
+        <h5>{totalRisk}</h5>
        
-        <div> project name : {this.state.projectName}</div>
+        <hr className="my-2" />
+
+
+        
+        
+      </Jumbotron>
+    </div>
+       
+        {/* <div> project name : {this.state.projectName}</div>
         <div> {this.state.myDate} </div>
         <div> currentWeek : {this.state.week} </div>
-        {totalRisk}
+        {totalRisk} */}
 
         {previous}
         {nextbtn}

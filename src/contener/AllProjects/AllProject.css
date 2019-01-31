@@ -7,7 +7,7 @@
 }
 
 .views {
-  /* border: 2px solid black; */
+  border: 2px solid black;
   width: 75%;
   height: 130px;
   background-color: violet;
@@ -31,8 +31,8 @@
 }
 
 .btnEdit {
-  background-color: deeppink;
-  border-radius: 10px;
+  /* background-color: deeppink; */
+  /* border-radius: 10px; */
   height: 50px;
   width: 100px;
   font-weight: bold;
@@ -42,7 +42,7 @@
   -webkit-box-shadow: 3px 0px 13px 8px rgba(112, 39, 112, 0.57);
   -moz-box-shadow: 3px 0px 13px 8px rgba(112, 39, 112, 0.57);
   box-shadow: 3px 0px 13px 8px rgba(112, 39, 112, 0.57);
-  border: 2px solid darkmagenta;
+  /* border: 2px solid darkmagenta; */
 
 }
 

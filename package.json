@@ -4,9 +4,10 @@
   "private": true,
   "dependencies": {
     "axios": "^0.18.0",
-    "react": "^16.6.0",
+    "bootstrap": "^4.2.1",
+    "react": "^16.7.0",
     "react-datepicker": "^2.0.0",
-    "react-dom": "^16.6.0",
+    "react-dom": "^16.7.0",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.1",
@@ -26,6 +27,5 @@
     "not dead",
     "not ie <= 11",
     "not op_mini all"
-  ],
-  "proxy": "http://10.2.1.103:4000/"
+  ]
 }

@@ -12,7 +12,7 @@ class AllProjects extends Component {
   }
 
   componentDidMount() {
-    axios.get("/AllDB")
+    axios.get("http://10.2.3.104:4000/AllDB")
       .then((response) => {
 
         console.log("qqqqqqqqqqsdad", response)
@@ -42,7 +42,7 @@ class AllProjects extends Component {
 
 
     return (
-      <div>
+      <div  >
 
         <CreateTable />
         {read}
