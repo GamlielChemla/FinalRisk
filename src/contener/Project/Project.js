@@ -64,8 +64,10 @@ class Project extends Funcs {
    
     };
 
-  componentDidMount() {
-   this.dateHandler()
+  async componentDidMount() {
+   await this.dateHandler();
+
+   await this.updateAll();
    
     axios
       .get("/getCurrentWeek/" + this.props.match.params.projectName)

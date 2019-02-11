@@ -1,4 +1,5 @@
 import {Component} from "react";
+import axios from 'axios'
 
 
 export class Funcs extends Component {
@@ -155,6 +156,7 @@ export class Funcs extends Component {
                 week: data[key]
               });
         
+              break;
 
             default:
               console.log('defualt');
@@ -419,5 +421,30 @@ console.log("xxxxxxxxxzzzzzzzzzzzvvvvvvvv",this.state);
     return pushTo
 
 
+  }
+  updateAll = () =>{
+    /* to connect to trellosync*/
+    axios.get('/http://10.2.3.130:5555/trelloSynch/risks/')
+      .then(response => {
+  
+        axios.post ('/',response)
+        .then(res=>{
+
+
+        })
+        console.log("myResponse", response.data)
+      })
+          /* to connect to testLink*/
+  
+    axios.get('/')
+      .then(response => {
+  
+  
+        console.log("myResponse", response.data)
+  
+  
+      })
+  
+  
   }
 }

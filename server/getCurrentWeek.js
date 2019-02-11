@@ -5,7 +5,7 @@ let router = express.Router();
 let connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'aaaa',
+  password: 'rina3004',
   database: "myproject"
 
 });
@@ -28,7 +28,7 @@ router.get("/getCurrentWeek/:projectName", (req, res) => {
 
   console.log("1er");
 
-  insertTBDb = () => {
+  let insertTBDb = () => {
 
     const project  = req.params.projectName
 

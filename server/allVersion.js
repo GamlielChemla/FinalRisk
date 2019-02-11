@@ -2,10 +2,11 @@ let express = require('express');
 let router = express.Router();
 let mysql = require('mysql');
 
+
 let connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'aaaa',
+    password: 'rina3004',
     database: "myproject"
 });
 connection.connect(function (err) {
@@ -29,7 +30,7 @@ router.get("/", (req, res) => {
 
     const projectName = req.params.projectName
 
-    viewTotal = (project) => {
+    let viewTotal = (project) => {
         let version = ` SELECT week FROM ${project} WHERE version = (SELECT MAX (version) FROM  ${project} )`
         return version
     }

@@ -5,7 +5,7 @@ let router = express.Router();
 let connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'aaaa',
+  password: 'rina3004',
   database: "myproject"
 
 });
@@ -57,8 +57,8 @@ router.post('/', async (req, res) => {
 
 
   const getKeysAndVals =  async (arr) => {
-    arrKeys = []
-    arrVals = []
+   let arrKeys = []
+   let arrVals = []
 
       arr.forEach( (item)  =>{
         let myKey=Object.keys(item)[0]
@@ -117,7 +117,7 @@ router.post('/', async (req, res) => {
   
   const keysAndValues = await getKeysAndVals(arr)
   
-  console.log("kkk",keysAndValues);
+  // console.log("kkk",keysAndValues);
   
   const projectName = req.body.projectName
   

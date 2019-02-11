@@ -12,30 +12,30 @@ class RiskOverView extends Component {
     total: 0
   }
 
-  // componentDidMount() {
-  //   console.log("hahahazzzz");
-  //   console.log(this.props.projectName);
+  componentDidMount() {
+    console.log("hahahazzzz");
+    console.log(this.props.projectName);
 
-  //   let projectName = this.props.projectName
-  //   console.log(projectName);
+    let projectName = this.props.projectName
+    console.log(projectName);
 
-  //   axios.get('/total/' + projectName)
-  //     .then(response => {
-
-
-  //       console.log("myreponce", response.data)
-
-  //       console.log(Object.values(response.data[0])[0]);
-
-  //       const total = Object.values(response.data[0])[0]
-
-  //       this.setState({ total: total })
+    axios.get('/total/' + projectName)
+      .then(response => {
 
 
-  //       console.log("ttott", this.state.total);
-  //     }
-  //     )
-  // }
+        console.log("myreponce", response.data)
+
+        console.log(Object.values(response.data[0])[0]);
+
+        const total = Object.values(response.data[0])[0]
+
+        this.setState({ total: total })
+
+
+        console.log("ttott", this.state.total);
+      }
+      )
+  }
 
   deleteTable = () => {
     let confirms = window.confirm(`are you sure you want to delete "${this.props.projectName}"`)
@@ -45,6 +45,7 @@ class RiskOverView extends Component {
       document.location.reload()
     }
   }
+  
 
   render() {
     return (
@@ -58,7 +59,7 @@ class RiskOverView extends Component {
 
           <Link to={"/Project/" + this.props.projectName }>
 
-            <button className="btnEdit">edit</button>
+            <button className="btnEdit" onClick = {this.updateAll}>edit</button>
 
           </Link>
           <br />

@@ -5,7 +5,7 @@ let router = express.Router();
 let connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'aaaa',
+  password: 'rina3004',
   database: "myproject"
 
 });
@@ -25,7 +25,7 @@ router.delete("/:projectName", (req, res) => {
   res.header('Access-Control-Allow-Headers', '*');
 
   const projectName = req.params.projectName
-  deleteTable = () => {
+  let deleteTable = () => {
 
     let table = ` drop table ${projectName}`
     return table

@@ -5,8 +5,16 @@ let router = express.Router();
 let connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'aaaa',
+  password: 'rina3004',
   database: "myproject"
+
+});
+
+let connection2 = mysql.createConnection({
+  host: 'localhost',
+  user: 'root',
+  password: 'rina3004',
+  database: "mydb"
 
 });
 
@@ -18,6 +26,25 @@ connection.connect(function (err) {
 
   }
 });
+connection2.connect(function (err) {
+  if (!!err) {
+    console.log('error: ' + err.message);
+  } else {
+    console.log("connect mydb");
+
+  }
+})
+
+let mysqll = 'show tables'
+connection2.query(mysqll ,(err, result, files, rows) => {
+  if (err) {
+    console.log('error query ' + err.message);
+  } else {
+    console.log("succes eliaou ", result)
+
+  }
+})
+
 router.post("/", (req, res) => {
 
   res.header('Access-Control-Allow-Origin', '*');
@@ -27,7 +54,7 @@ router.post("/", (req, res) => {
 
   console.log("1er");
 
-  insertTBDb = (req) => {
+  let insertTBDb = (req) => {
 
     let sendProject = req.body.sendProject
     console.log("zxxz");
