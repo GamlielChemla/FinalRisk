@@ -10,6 +10,7 @@ const allVersion = require('./allVersion')
 const getCurrentWeek = require('./getCurrentWeek')
 const getLastWeek = require('./getLastWeek')
 const getNextWeek = require('./getNextWeek')
+const updatetrello = require('./updatetrello')
 
 app.use(bodyParser.json());
 // app.use(bodyParser.urlencoded({extended:true}));
@@ -24,6 +25,7 @@ app.use('/allVersion', allVersion)
 app.use('/', getCurrentWeek)
 app.use('/', getLastWeek)
 app.use('/', getNextWeek)
+app.use('/', updatetrello)
 
 
 

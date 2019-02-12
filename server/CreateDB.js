@@ -3,20 +3,14 @@ const mysql = require('mysql');
 let router = express.Router();
 
 let connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'rina3004',
-  database: "myproject"
+  host: 'rtsuit.mysql.database.azure.com',
+    user: 'rtsuit@rtsuit',
+    password: 'Ravtech123!',
+    database:'myproject',
+    port:3306,
 
 });
 
-let connection2 = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'rina3004',
-  database: "mydb"
-
-});
 
 connection.connect(function (err) {
   if (!!err) {
@@ -26,24 +20,7 @@ connection.connect(function (err) {
 
   }
 });
-connection2.connect(function (err) {
-  if (!!err) {
-    console.log('error: ' + err.message);
-  } else {
-    console.log("connect mydb");
 
-  }
-})
-
-let mysqll = 'show tables'
-connection2.query(mysqll ,(err, result, files, rows) => {
-  if (err) {
-    console.log('error query ' + err.message);
-  } else {
-    console.log("succes eliaou ", result)
-
-  }
-})
 
 router.post("/", (req, res) => {
 

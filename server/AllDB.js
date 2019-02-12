@@ -3,10 +3,11 @@ let router = express.Router();
 let mysql = require('mysql');
 
 let connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: 'rina3004',
-    database: "myproject"
+    host: 'rtsuit.mysql.database.azure.com',
+    user: 'rtsuit@rtsuit',
+    password: 'Ravtech123!',
+    database:'myproject',
+    port:3306,
 
 });
 connection.connect(function (err) {

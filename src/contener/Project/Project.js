@@ -18,6 +18,7 @@ import NewRisk from "../../components/NewRisk/NewRisk";
 
 import {Funcs} from "./AllFuncs"
 
+let probability = require('./test')
 
 
 
@@ -65,9 +66,18 @@ class Project extends Funcs {
     };
 
   async componentDidMount() {
+
    await this.dateHandler();
 
-   await this.updateAll();
+      
+  
+        axios.post ('/update',{probability:probability, projectName:this.state.projectName, week:this.state.week})
+        .then(res=>{
+
+
+          console.log("trello", res.data)
+        })
+      
    
     axios
       .get("/getCurrentWeek/" + this.props.match.params.projectName)
@@ -137,32 +147,32 @@ class Project extends Funcs {
       const myIndex = newState.findIndex(elem => {
         return elem.riskName === name;
       });
-
+      
       console.log(myIndex);
-
+      
       newState.splice(myIndex, 1);
-
+      
       this.setState({ risks: newState });
-
+      
       this.setState({risksLength:this.state.risksLength-1})
-
+      
     }
   };
-
+  
   addDataToState = (e,name) => {
     let myKey = e.target.name;
-
+    
     let newState = this.state.risks.slice();
-
+    
     const myIndex = newState.findIndex(elem => {
       return elem.riskName === name;
     });
-
+    
     newState[myIndex][myKey] = e.target.value;
-
+    
     this.setState({ risks: newState });
   };
-
+  
   postHandle = async () => {
     let newData = [];
     let arr = [...this.state.risks];
@@ -218,6 +228,7 @@ class Project extends Funcs {
       });
   };
 
+  
   previousWeekFunc = async () => {
     
 
