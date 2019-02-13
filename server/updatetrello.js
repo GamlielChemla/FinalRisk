@@ -1,15 +1,24 @@
-const express = require('express')
-const mysql = require('mysql');
+let express = require('express')
+let mysql = require('mysql');
+
 let router = express.Router();
-// let maxvlue = ''
+
 
 let connection = mysql.createConnection({
   host: 'rtsuit.mysql.database.azure.com',
-    user: 'rtsuit@rtsuit',
-    password: 'Ravtech123!',
-    database:'myproject',
-    port:3306,
+   user: 'rtsuit@rtsuit',
+   password: 'Ravtech123!',
+   database:'myproject',
 
+   port:3306,
+});
+connection.connect(function (err) {
+   if (!!err) {
+       console.log('error: ' + err.message);
+   } else {
+       console.log("connect");
+
+   }
 });
 router.post('/update', (req, res) => {
     
@@ -25,20 +34,26 @@ router.post('/update', (req, res) => {
     
     let projectName = req.body.projectName
     console.log("name",projectName);
-    let week = req.body.week
-
-    let mysql = `UPDATE ${projectName} SET ProbabilityBudget = ${probability} WHERE version = (select max(version )`
+    console.log("probability",probability);
     
-     connection.query  (mysql, (err, result, files, rows) => {
+
+    let version = `update ${projectName} SET ProbabilityBudget = ${probability}
+    WHERE version = (SELECT * from (SELECT MAX(Version)
+    FROM ${projectName}) as gam);`
+
+    console.log("Versmmmmmmmmmmmmmmmmmmmmmmmmmmion",version);
+    
+     connection.query  (version, (err, result, files, rows) => {
         if (err) {
-          console.log('error query ' + err.message);
+          console.log('error query ' + err);
         } else {
-          console.log("succes ", Object.values(result[0])[0])
-          let maxvalue = Object.values(result[0])[0]
+          console.log("succesUpdate ", result)
+          // console.log("succes ", Object.values(result[0])[0])
         }
   
             // res.send(result);
       })
+
 
     })
     module.exports = router;  
